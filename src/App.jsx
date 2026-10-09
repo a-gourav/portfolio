@@ -68,9 +68,10 @@ export default function App() {
       if (!cmd) return;
 
       let response = "";
-      if (cmd === 'help') response = "Available: bio, projects, skills, awards, questions, clear";
+      if (cmd === 'help') response = "Available: bio, projects, skills, awards, questions, resume, clear";
       else if (cmd === 'bio') response = "A Gourav — CS Engineer fusing AI/ML with edge hardware & biosignals.";
       else if (cmd === 'projects') response = "001.PhysioShift | 002.Confaxis | 003.Vis-Anchor | 004.LakeGuard AI | 005.PhaseSAR-Net";
+      else if (cmd === 'resume') { downloadResume(); response = 'Downloading verified resume (GOURAV_RESUME.pdf)...'; }
       else if (cmd === 'skills') response = "PyTorch, Python, Scikit-Learn, OpenCV, RAG, ESP32, Docker, FastAPI";
       else if (cmd === 'awards') response = "4th Place, KSRSAC State Award (₹15,000 out of 147 teams with LakeGuard AI)";
       else if (cmd === 'questions') response = "RQ-001: Can physiological model learn signal without device?";
