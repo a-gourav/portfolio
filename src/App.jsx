@@ -70,7 +70,7 @@ export default function App() {
       let response = "";
       if (cmd === 'help') response = "Available: bio, projects, skills, awards, questions, resume, clear";
       else if (cmd === 'bio') response = "A Gourav — CS Engineer fusing AI/ML with edge hardware & biosignals.";
-      else if (cmd === 'projects') response = "001.PhysioShift | 002.Confaxis | 003.Vis-Anchor | 004.LakeGuard AI | 005.PhaseSAR-Net";
+      else if (cmd === 'projects') response = "001.PhysioShift | 002.LakeGuard AI | 003.PhaseSAR-Net";
       else if (cmd === 'resume') { downloadResume(); response = 'Downloading verified resume (GOURAV_RESUME.pdf)...'; }
       else if (cmd === 'skills') response = "PyTorch, Python, Scikit-Learn, OpenCV, RAG, ESP32, Docker, FastAPI";
       else if (cmd === 'awards') response = "4th Place, KSRSAC State Award (₹15,000 out of 147 teams with LakeGuard AI)";
@@ -189,7 +189,7 @@ export default function App() {
                 {aboutTab === 'stats' && (
                   <div className="about-stats-grid">
                     <div className="about-stat-item">
-                      <span className="about-stat-num">05+</span>
+                      <span className="about-stat-num">03+</span>
                       <span className="about-stat-label">Production & Research Projects</span>
                     </div>
                     <div className="about-stat-item">
@@ -349,33 +349,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* 002 CONFAXIS */}
-            <div className="work-card-large">
-              <div className="work-orb-banner"><div className="work-orb orb-purple" /></div>
-              <div className="work-card-body">
-                <div className="work-badge">CONFAXIS</div>
-                <p className="work-text">Mechanistic interpretability research: testing whether model overconfidence under distribution shift stems from a single causally-editable linear direction in representation space.</p>
-                <div className="work-tags-row">
-                  {['PyTorch', 'ResNet', 'CIFAR-100-C', 'Probing'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
-                </div>
-                <div className="work-footer"><span className="work-num">002</span><span>SOLO RESEARCH</span></div>
-              </div>
-            </div>
-
-            {/* 003 VIS-ANCHOR EDGE */}
-            <div className="work-card-large">
-              <div className="work-orb-banner"><div className="work-orb orb-blue" /></div>
-              <div className="work-card-body">
-                <div className="work-badge">VIS-ANCHOR EDGE</div>
-                <p className="work-text">Robustness audit of Qwen2.5-VL-7B (full vs 4-bit) on diagnostic ECG / biosignal chart grounding. Evaluating counterfactual sensitivity and contrastive decoding mitigation.</p>
-                <div className="work-tags-row">
-                  {['VLM', 'Quantization', 'PhysioNet', 'Robustness'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
-                </div>
-                <div className="work-footer"><span className="work-num">003</span><span>SOLO RESEARCH</span></div>
-              </div>
-            </div>
-
-            {/* 004 LAKEGUARD AI */}
+            {/* 002 LAKEGUARD AI */}
             <div className="work-card-large">
               <div className="work-orb-banner"><div className="work-orb orb-green" /></div>
               <div className="work-card-body">
@@ -384,11 +358,11 @@ export default function App() {
                 <div className="work-tags-row">
                   {['React', 'FastAPI', 'ESP32', 'IoT'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
                 </div>
-                <div className="work-footer"><span className="work-num">004</span><span>LIVE · 4TH / 147</span></div>
+                <div className="work-footer"><span className="work-num">002</span><span>LIVE · 4TH / 147</span></div>
               </div>
             </div>
 
-            {/* 005 PHASESAR-NET */}
+            {/* 003 PHASESAR-NET */}
             <div className="work-card-large work-card-full">
               <div className="work-orb-banner"><div className="work-orb orb-pink" /></div>
               <div className="work-card-body">
@@ -397,7 +371,7 @@ export default function App() {
                 <div className="work-tags-row">
                   {['PyTorch', 'Complex CNN', 'SAR', 'Streamlit'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
                 </div>
-                <div className="work-footer"><span className="work-num">005</span><span>SOLO RESEARCH</span></div>
+                <div className="work-footer"><span className="work-num">003</span><span>SOLO RESEARCH</span></div>
               </div>
             </div>
           </div>
