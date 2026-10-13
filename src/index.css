@@ -325,7 +325,8 @@ section {
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid var(--cyan);
-  filter: brightness(1.12) contrast(1.08) saturate(1.15);
+  filter: brightness(1.05) contrast(1.05) saturate(1.10);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
 }
 .top-pill-name {
   font-family: var(--mono);
@@ -742,12 +743,12 @@ section {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(1.15) contrast(1.10) saturate(1.20);
+  filter: brightness(1.06) contrast(1.06) saturate(1.12);
   transition: filter 0.4s ease, transform 0.4s ease;
 }
 
 .about-photo-wrapper:hover .about-photo-img {
-  filter: brightness(1.20) contrast(1.15) saturate(1.25);
+  filter: brightness(1.12) contrast(1.10) saturate(1.18);
   transform: scale(1.03);
 }
 
