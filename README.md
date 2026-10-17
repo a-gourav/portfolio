@@ -81,11 +81,11 @@ npm run build
 <div align="center">
 
   <!-- ANIMATED 3D FOOTER BANNER LINKED TO VERCEL -->
-  <a href="https://portfolio-lime-six-9sktsk3gk.vercel.app" target="_blank">
+  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
     <img src="./footer_banner.svg" width="100%" alt="A Gourav 3D Footer Quote Banner" />
   </a>
 
   <br /><br />
-  <p>Built with 💙 by <b>A Gourav</b> • Deployed Live on <a href="https://portfolio-lime-six-9sktsk3gk.vercel.app" target="_blank"><b>Vercel</b></a></p>
+  <p>Built with 💙 by <b>A Gourav</b> • Deployed Live on <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank"><b>Vercel</b></a></p>
 
 </div>
