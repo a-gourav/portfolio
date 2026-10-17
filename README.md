@@ -1,18 +1,18 @@
 <div align="center">
 
-  <!-- 3D ANIMATED HERO BANNER LINKED TO VERCEL -->
-  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
+  <!-- 3D ANIMATED HERO BANNER LINKED TO LIVE SITE -->
+  <a href="https://a-gourav.github.io/portfolio/" target="_blank">
     <img src="./banner.svg" width="100%" alt="A Gourav 3D Portfolio Banner" />
   </a>
 
   <br /><br />
 
-  <!-- BADGES ROW WITH PROMINENT VERCEL DEPLOYMENT BADGES -->
-  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
-    <img src="https://img.shields.io/badge/LIVE_PORTFOLIO-00F0FF?style=for-the-badge&logo=vercel&logoColor=000" alt="Live Portfolio Vercel" />
+  <!-- BADGES ROW WITH PROMINENT LIVE DEPLOYMENT BADGES -->
+  <a href="https://a-gourav.github.io/portfolio/" target="_blank">
+    <img src="https://img.shields.io/badge/LIVE_PORTFOLIO-00F0FF?style=for-the-badge&logo=githubpages&logoColor=000" alt="Live Portfolio GitHub Pages" />
   </a>
-  <a href="https://vercel.com/gourav16/portfolio" target="_blank">
-    <img src="https://img.shields.io/badge/VERCEL_PROJECT-000000?style=for-the-badge&logo=vercel&logoColor=fff" alt="Vercel Dashboard" />
+  <a href="https://github.com/a-gourav/portfolio" target="_blank">
+    <img src="https://img.shields.io/badge/GITHUB_REPO-000000?style=for-the-badge&logo=github&logoColor=fff" alt="GitHub Repository" />
   </a>
   <a href="https://react.dev" target="_blank">
     <img src="https://img.shields.io/badge/REACT_19-61DAFB?style=for-the-badge&logo=react&logoColor=000" alt="React 19" />
@@ -64,7 +64,7 @@ flowchart TD
 
 ```bash
 # 1. Clone Repository
-git clone https://github.com/arisu2006/portfolio.git
+git clone https://github.com/a-gourav/portfolio.git
 
 # 2. Install Dependencies
 npm install
@@ -80,12 +80,12 @@ npm run build
 
 <div align="center">
 
-  <!-- ANIMATED 3D FOOTER BANNER LINKED TO VERCEL -->
-  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
+  <!-- ANIMATED 3D FOOTER BANNER LINKED TO LIVE SITE -->
+  <a href="https://a-gourav.github.io/portfolio/" target="_blank">
     <img src="./footer_banner.svg" width="100%" alt="A Gourav 3D Footer Quote Banner" />
   </a>
 
   <br /><br />
-  <p>Built with 💙 by <b>A Gourav</b> • Deployed Live on <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank"><b>Vercel</b></a></p>
+  <p>Built with 💙 by <b>A Gourav</b> • Deployed Live on <a href="https://a-gourav.github.io/portfolio/" target="_blank"><b>GitHub Pages</b></a></p>
 
 </div>
