@@ -1,14 +1,14 @@
 <div align="center">
 
   <!-- 3D ANIMATED HERO BANNER LINKED TO VERCEL -->
-  <a href="https://portfolio-lime-six-9sktsk3gk.vercel.app" target="_blank">
+  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
     <img src="./banner.svg" width="100%" alt="A Gourav 3D Portfolio Banner" />
   </a>
 
   <br /><br />
 
   <!-- BADGES ROW WITH PROMINENT VERCEL DEPLOYMENT BADGES -->
-  <a href="https://portfolio-lime-six-9sktsk3gk.vercel.app" target="_blank">
+  <a href="https://portfolio-git-main-gourav16.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/LIVE_PORTFOLIO-00F0FF?style=for-the-badge&logo=vercel&logoColor=000" alt="Live Portfolio Vercel" />
   </a>
   <a href="https://vercel.com/gourav16/portfolio" target="_blank">
