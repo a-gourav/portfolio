@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { ASSETS } from './assetsData';
+import { PROJECTS_DATA } from './projectsData';
 import ThreeBackground from './ThreeBackground';
 import { 
-  User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText
+  User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText,
+  X, ExternalLink, CheckCircle2, Sparkles, Maximize2
 } from 'lucide-react';
 
 export default function App() {
@@ -18,6 +20,24 @@ export default function App() {
   ]);
   const [cliInputVal, setCliInputVal] = useState('');
   const [openNote, setOpenNote] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  // Lock body scroll and handle Escape key when project brief modal is open
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSelectedProject(null);
+    };
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProject]);
 
   // Active section scroll tracker & top pill visibility (ONLY show top pill on hero front page)
   useEffect(() => {
@@ -336,44 +356,39 @@ export default function App() {
           </div>
 
           <div className="work-grid-container">
-            {/* 001 PHYSIOSHIFT */}
-            <div className="work-card-large">
-              <div className="work-orb-banner"><div className="work-orb orb-yellow" /></div>
-              <div className="work-card-body">
-                <div className="work-badge">PHYSIOSHIFT</div>
-                <p className="work-text">Self-supervised representation learning for physiological time-series (ECG, PPG, GSR). Built to stay robust across sensor hardware domains — powers VitalDrift and Follicular downstream apps.</p>
-                <div className="work-tags-row">
-                  {['PyTorch', 'Self-Supervised', 'Time-Series', 'Edge AI'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
+            {PROJECTS_DATA.map((project) => (
+              <div 
+                key={project.id} 
+                className={`work-card-large ${project.id === 'phasesar' ? 'work-card-full' : ''}`}
+                onClick={() => setSelectedProject(project)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedProject(project); } }}
+                title={`Click to view full project brief for ${project.title}`}
+              >
+                <div className="work-orb-banner">
+                  <div className={`work-orb ${project.orbClass}`} />
+                  <div className="work-card-click-pill">
+                    <Maximize2 size={12} />
+                    <span>View Project Brief ↗</span>
+                  </div>
                 </div>
-                <div className="work-footer"><span className="work-num">001</span><span>IN PROGRESS · TEAM</span></div>
-              </div>
-            </div>
-
-            {/* 002 LAKEGUARD AI */}
-            <div className="work-card-large">
-              <div className="work-orb-banner"><div className="work-orb orb-green" /></div>
-              <div className="work-card-body">
-                <div className="work-badge">LAKEGUARD AI</div>
-                <p className="work-text">AI sentinel fusing live IoT sensor swarms with ML to catch water-quality anomalies early in Karnataka's lakes. Placed 4th of 147 teams at KSRSAC State-Level Exhibition.</p>
-                <div className="work-tags-row">
-                  {['React', 'FastAPI', 'ESP32', 'IoT'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
+                <div className="work-card-body">
+                  <div className="work-badge">{project.badge}</div>
+                  <p className="work-text">{project.shortDesc}</p>
+                  <div className="work-tags-row">
+                    {project.tags.slice(0, 4).map(t => <span key={t} className="work-tag-item">{t}</span>)}
+                  </div>
+                  <div className="work-footer">
+                    <span className="work-num">{project.num}</span>
+                    <span className="work-read-cta">
+                      Read Brief <Sparkles size={13} style={{ marginLeft: '4px', verticalAlign: 'middle' }} />
+                    </span>
+                    <span>{project.status}</span>
+                  </div>
                 </div>
-                <div className="work-footer"><span className="work-num">002</span><span>LIVE · 4TH / 147</span></div>
               </div>
-            </div>
-
-            {/* 003 PHASESAR-NET */}
-            <div className="work-card-large work-card-full">
-              <div className="work-orb-banner"><div className="work-orb orb-pink" /></div>
-              <div className="work-card-body">
-                <div className="work-badge">PHASESAR-NET</div>
-                <p className="work-text">Phase-aware complex-valued neural network for SAR automatic target recognition. Preserves amplitude + phase (I/Q) instead of collapsing to magnitude-only inputs.</p>
-                <div className="work-tags-row">
-                  {['PyTorch', 'Complex CNN', 'SAR', 'Streamlit'].map(t => <span key={t} className="work-tag-item">{t}</span>)}
-                </div>
-                <div className="work-footer"><span className="work-num">003</span><span>SOLO RESEARCH</span></div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -513,7 +528,7 @@ export default function App() {
 
               <div className="footer-col">
                 <span className="footer-col-title">SOCIAL</span>
-                <a href="https://github.com/arisu2006" target="_blank" rel="noreferrer" className="footer-nav-link">GITHUB</a>
+                <a href="https://github.com/a-gourav" target="_blank" rel="noreferrer" className="footer-nav-link">GITHUB</a>
                 <a href="https://linkedin.com/in/gourav-a-450148360" target="_blank" rel="noreferrer" className="footer-nav-link">LINKEDIN</a>
                 <a href="mailto:amdggourav@gmail.com" className="footer-nav-link">EMAIL</a>
               </div>
@@ -538,6 +553,133 @@ export default function App() {
           </div>
         </section>
       </div>
+
+      {/* INTERACTIVE PROJECT BRIEF MODAL */}
+      {selectedProject && (
+        <div 
+          className="project-modal-backdrop" 
+          onClick={() => setSelectedProject(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-project-title"
+        >
+          <div 
+            className="project-modal-container" 
+            onClick={(e) => e.stopPropagation()}
+            style={{ '--project-accent': selectedProject.color }}
+          >
+            {/* MODAL HEADER */}
+            <div className="project-modal-header">
+              <div className="project-modal-header-info">
+                <div className="project-modal-top-meta">
+                  <span className="project-modal-num">{selectedProject.num}</span>
+                  <span className="project-modal-badge">{selectedProject.badge}</span>
+                  <span className="project-modal-cat">{selectedProject.category}</span>
+                </div>
+                <h3 id="modal-project-title" className="project-modal-title">{selectedProject.title}</h3>
+                <p className="project-modal-subtitle">{selectedProject.subtitle}</p>
+              </div>
+              <button 
+                className="project-modal-close-btn" 
+                onClick={() => setSelectedProject(null)}
+                aria-label="Close project brief"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* MODAL SCROLLABLE BODY */}
+            <div className="project-modal-body">
+              {/* RESEARCH / PROJECT TAGLINE QUOTE */}
+              <div className="project-modal-tagline-box">
+                <p className="project-modal-tagline">"{selectedProject.tagline}"</p>
+              </div>
+
+              {/* PROBLEM STATEMENT */}
+              <div className="project-modal-section">
+                <div className="project-modal-section-title">
+                  <Activity size={15} color="var(--project-accent)" />
+                  <span>The Engineering Problem</span>
+                </div>
+                <p className="project-modal-text">{selectedProject.problem}</p>
+              </div>
+
+              {/* CORE INNOVATIONS */}
+              <div className="project-modal-section">
+                <div className="project-modal-section-title">
+                  <Sparkles size={15} color="var(--project-accent)" />
+                  <span>Key Innovations & Methodology</span>
+                </div>
+                <div className="project-modal-innovations-list">
+                  {selectedProject.innovations.map((item, idx) => (
+                    <div key={idx} className="project-modal-innovation-item">
+                      <div className="innovation-header">
+                        <CheckCircle2 size={16} color="var(--project-accent)" />
+                        <h4 className="innovation-title">{item.title}</h4>
+                      </div>
+                      <p className="innovation-desc">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* SYSTEM ARCHITECTURE PIPELINE */}
+              <div className="project-modal-section">
+                <div className="project-modal-section-title">
+                  <Layers size={15} color="var(--project-accent)" />
+                  <span>Architecture & Pipeline</span>
+                </div>
+                <div className="project-modal-arch-box">
+                  <code>{selectedProject.architecture}</code>
+                </div>
+              </div>
+
+              {/* KEY METRICS & IMPACT GRID */}
+              <div className="project-modal-section">
+                <div className="project-modal-section-title">
+                  <Award size={15} color="var(--project-accent)" />
+                  <span>Impact & Key Results</span>
+                </div>
+                <div className="project-modal-metrics-grid">
+                  {selectedProject.metrics.map((m, idx) => (
+                    <div key={idx} className="project-modal-metric-card">
+                      <div className="metric-value">{m.value}</div>
+                      <div className="metric-label">{m.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* TECH STACK TAGS */}
+              <div className="project-modal-section">
+                <div className="project-modal-section-title">
+                  <Cpu size={15} color="var(--project-accent)" />
+                  <span>Technology & Stack</span>
+                </div>
+                <div className="project-modal-tags-row">
+                  {selectedProject.tags.map(t => (
+                    <span key={t} className="project-modal-tag-pill">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="project-modal-footer">
+              <div className="project-modal-footer-status">
+                <span className="status-dot" style={{ backgroundColor: selectedProject.color }} />
+                <span>{selectedProject.status}</span>
+              </div>
+              <button 
+                className="project-modal-footer-close-btn"
+                onClick={() => setSelectedProject(null)}
+              >
+                Close Brief
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
