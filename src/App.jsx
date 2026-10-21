@@ -88,13 +88,14 @@ export default function App() {
       if (!cmd) return;
 
       let response = "";
-      if (cmd === 'help') response = "Available: bio, projects, skills, awards, questions, resume, clear";
-      else if (cmd === 'bio') response = "A Gourav — CS Engineer fusing AI/ML with edge hardware & biosignals.";
-      else if (cmd === 'projects') response = "001.PhysioShift | 002.LakeGuard AI | 003.PhaseSAR-Net";
-      else if (cmd === 'resume') { downloadResume(); response = 'Downloading verified resume (GOURAV_RESUME.pdf)...'; }
-      else if (cmd === 'skills') response = "PyTorch, Python, Scikit-Learn, OpenCV, RAG, ESP32, Docker, FastAPI";
-      else if (cmd === 'awards') response = "4th Place, KSRSAC State Award (₹15,000 out of 147 teams with LakeGuard AI)";
-      else if (cmd === 'questions') response = "RQ-001: Can physiological model learn signal without device?";
+      if (cmd === 'help') response = "Available: bio, experience, projects, skills, awards, questions, resume, clear";
+      else if (cmd === 'bio') response = "A Gourav — Third-year CS Engineering student at APSCE working toward ML research (self-supervised learning, mechanistic interpretability, edge AI).";
+      else if (cmd === 'experience') response = "AI Engineering Intern at Infosys (June 2026 – Present) · Building an AI Academic Project Mentor platform on Next.js, FastAPI, Supabase.";
+      else if (cmd === 'projects') response = "001.PhysioShift (Cross-Hardware Biosignals) | 002.LakeGuard AI (IoT Lake Sentinel) | 003.PhaseSAR-Net (Complex-Valued SAR ATR)";
+      else if (cmd === 'resume') { downloadResume(); response = 'Downloading updated verified resume (GOURAV_RESUME.pdf)...'; }
+      else if (cmd === 'skills') response = "Python, Java, C++, React.js, FastAPI, Next.js, Supabase, PyTorch, Edge AI, IoT, Docker, Git";
+      else if (cmd === 'awards') response = "4th Place of 147 teams, KSRSAC State-Level Student Innovation Exhibition (₹15,000 Award) | 250+ LeetCode DSA | 300+ Day Duolingo Streak";
+      else if (cmd === 'questions') response = "RQ-001: Can a physiological model learn the signal without learning the device?";
       else if (cmd === 'clear') { setCliLogs([]); return; }
       else response = `Unknown command: '${cmd}'`;
 
@@ -196,33 +197,36 @@ export default function App() {
 
                 {aboutTab === 'edu' && (
                   <div>
-                    <h3 className="about-edu-title">Bachelor of Engineering — Computer Science</h3>
-                    <p className="about-edu-subtitle">Computer Science and Engineering</p>
+                    <h3 className="about-edu-title">Bachelor of Engineering, Computer Science Engineering</h3>
+                    <p className="about-edu-subtitle">APS College of Engineering, Bengaluru</p>
                     <div className="about-edu-badge-row">
-                      <span className="about-edu-badge">Batch: 2024 - 2028</span>
+                      <span className="about-edu-badge">2024 – 2028 (Expected)</span>
                       <span className="about-edu-sep">•</span>
                       <span className="about-edu-location">Bengaluru, Karnataka</span>
                     </div>
+                    <p style={{ marginTop: '0.8rem', fontSize: '0.85rem', color: 'var(--ink-dim)', lineHeight: '1.5' }}>
+                      Relevant coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Machine Learning, Operating Systems, Computer Networks
+                    </p>
                   </div>
                 )}
 
                 {aboutTab === 'stats' && (
                   <div className="about-stats-grid">
                     <div className="about-stat-item">
-                      <span className="about-stat-num">03+</span>
-                      <span className="about-stat-label">Production & Research Projects</span>
-                    </div>
-                    <div className="about-stat-item">
                       <span className="about-stat-num">4th</span>
-                      <span className="about-stat-label">KSRSAC State Exhibition (out of 147 teams)</span>
+                      <span className="about-stat-label">KSRSAC State Award (out of 147 teams, ₹15,000)</span>
                     </div>
                     <div className="about-stat-item">
                       <span className="about-stat-num">Infosys</span>
-                      <span className="about-stat-label">SupportPilot RAG AI Intern (2026)</span>
+                      <span className="about-stat-label">AI Engineering Intern (Next.js, FastAPI, Supabase)</span>
                     </div>
                     <div className="about-stat-item">
-                      <span className="about-stat-num">PyTorch</span>
-                      <span className="about-stat-label">Edge AI & Biosignal ML Research</span>
+                      <span className="about-stat-num">250+</span>
+                      <span className="about-stat-label">LeetCode Problems Solved (Daily Practice Streak)</span>
+                    </div>
+                    <div className="about-stat-item">
+                      <span className="about-stat-num">300+</span>
+                      <span className="about-stat-label">Day Streak on Duolingo</span>
                     </div>
                   </div>
                 )}
@@ -340,11 +344,19 @@ export default function App() {
           </div>
 
           <div className="glass-panel">
-            <h3 style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '0.4rem' }}>SUPPORTPILOT RAG · IT Support Automation</h3>
-            <div style={{ fontFamily: 'var(--mono)', fontSize: '0.85rem', color: 'var(--cyan)', marginBottom: '1rem' }}>Infosys Intern · 2026</div>
-            <p style={{ color: 'var(--ink-dim)', lineHeight: '1.7', fontSize: '1rem' }}>
-              RAG-powered ticket resolution system using TF-IDF and semantic embeddings. Implements ticket analysis, enterprise knowledge retrieval, context augmentation, and automated troubleshooting generation — with a confidence threshold and citation engine for IT support automation.
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.4rem' }}>
+              <h3 style={{ fontSize: '1.4rem', color: '#fff' }}>AI Engineering Intern — Infosys</h3>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.85rem', color: 'var(--cyan)' }}>June 2026 – Present</span>
+            </div>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: '0.82rem', color: 'var(--amber)', marginBottom: '1rem' }}>AI Academic Project Mentor Platform · Next.js, FastAPI, Supabase</div>
+            <ul style={{ color: 'var(--ink-dim)', lineHeight: '1.7', fontSize: '0.98rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <li>
+                Building an AI Academic Project Mentor platform end to end on <b>Next.js, FastAPI, and Supabase</b> (PostgreSQL, authentication, row-level security), from data schema design through a shipped onboarding UI.
+              </li>
+              <li>
+                Completed Milestones 1–3 with the team: system and ER diagrams, authentication and project submission flows, a full presentation deck, a working set of <b>feedback agents</b> (Feasibility Analysis, Scope Definition, Tech Stack, Timeline, and Risk & Mitigation), and a <b>one-on-one chatbot</b>. One milestone remaining before the internship concludes.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -431,26 +443,26 @@ export default function App() {
 
           <div style={{ display: 'grid', gap: '1.5rem' }}>
             <div className="glass-panel" style={{ borderLeft: '3px solid var(--cyan)' }}>
-              <span style={{ fontFamily: 'var(--mono)', color: 'var(--cyan)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>AUGUST 2026 — PRESENT</span>
-              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>SupportPilot · Infosys Intern</h3>
+              <span style={{ fontFamily: 'var(--mono)', color: 'var(--cyan)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>JUNE 2026 — PRESENT</span>
+              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>AI Engineering Intern · Infosys</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
-                Engineered an AI-driven support automation pipeline incorporating RAG architecture, semantic document chunking, and confidence-scored classification for automated enterprise ticketing.
+                Building an AI Academic Project Mentor platform end to end on Next.js, FastAPI, and Supabase (PostgreSQL, authentication, RLS). Shipped onboarding UI, feedback agents (Feasibility, Scope, Tech Stack, Timeline, Risk & Mitigation), and a one-on-one chatbot.
               </p>
             </div>
 
             <div className="glass-panel" style={{ borderLeft: '3px solid var(--amber)' }}>
               <span style={{ fontFamily: 'var(--mono)', color: 'var(--amber)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>APRIL 2026</span>
-              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>4th Place, KSRSAC State Award (₹15,000 Prize)</h3>
+              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>4th Place of 147 Teams · KSRSAC State Award (Govt. of Karnataka, ₹15,000 Prize)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
-                Presented LakeGuard AI water-quality monitoring IoT swarm system at Karnataka State Remote Sensing Applications Centre exhibition, securing 4th place out of 147 state teams.
+                Presented LakeGuard AI + AquaDrone Sentinel water-quality monitoring IoT swarm at the Karnataka State Remote Sensing Applications Centre Student Innovation Exhibition, winning 4th place out of 147 state teams.
               </p>
             </div>
 
-            <div className="glass-panel" style={{ borderLeft: '3px solid var(--violet)' }}>
-              <span style={{ fontFamily: 'var(--mono)', color: 'var(--violet)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>APRIL 2026</span>
-              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>Scaler × Meta PyTorch OpenEnv Hackathon</h3>
+            <div className="glass-panel" style={{ borderLeft: '3px solid var(--emerald)' }}>
+              <span style={{ fontFamily: 'var(--mono)', color: 'var(--emerald)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>OCTOBER 2026</span>
+              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>GenAI Powered Data Analytics · Tata Group (Forage)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
-                Constructed physics-aware neural network constraints and computer vision benchmark evaluation workflows in PyTorch during Meta's open environment hackathon.
+                Completed enterprise simulation on generative AI modeling, exploratory data analysis, business metric interpretation, and executive AI storytelling.
               </p>
             </div>
           </div>
@@ -465,21 +477,21 @@ export default function App() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
             <div className="glass-panel">
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--red)' }}>ISSUED JAN 2026</div>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--cyan)' }}>ORACLE · ISSUED JAN 2026</div>
               <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>Oracle AI Foundations Associate</h3>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Credential ID: 3249309880CI25AICFA</p>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Machine Learning, Generative AI & Deep Learning Core</p>
             </div>
 
             <div className="glass-panel">
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--red)' }}>ISSUED JAN 2026</div>
-              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>GeeksForGeeks SkillUp Program</h3>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Python, Data Analytics, AI Tools & Git</p>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--emerald)' }}>TATA GROUP · ISSUED OCT 2026</div>
+              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>GenAI Powered Data Analytics</h3>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Tata Group (Forage) Job Simulation</p>
             </div>
 
             <div className="glass-panel">
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--emerald)' }}>HARDWARE</div>
-              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>3D Drone Making Certification</h3>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Fabrication, Embedded Systems & Sensors</p>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--amber)' }}>ALGORITHMS & DSA</div>
+              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>250+ LeetCode Solved</h3>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Sustained daily-practice streak across DSA topics</p>
             </div>
           </div>
         </section>
