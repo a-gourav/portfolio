@@ -359,32 +359,13 @@ export default function App() {
               </div>
             </div>
 
-            {/* RIGHT PHOTO CARD WITH CORNER RETICLE BRACKETS & FLOATING BADGES */}
+            {/* RIGHT PHOTO CARD WITH CORNER RETICLE BRACKETS */}
             <div className="about-photo-wrapper">
               <div className="photo-reticle reticle-tl">┌</div>
               <div className="photo-reticle reticle-tr">┐</div>
               <div className="photo-reticle reticle-bl">└</div>
               <div className="photo-reticle reticle-br">┘</div>
-
-              {/* Floating tilted animated badge 1 (Top-Left) */}
-              <div className="about-floating-badge badge-top-left">
-                <span className="badge-pulse-dot" />
-                <div className="badge-content">
-                  <div className="badge-highlight">Infosys</div>
-                  <div className="badge-subtitle">AI Engineering Intern</div>
-                </div>
-              </div>
-
               <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="about-photo-img" />
-
-              {/* Floating tilted animated badge 2 (Bottom-Right) */}
-              <div className="about-floating-badge badge-bottom-right">
-                <Award size={15} color="var(--amber)" />
-                <div className="badge-content">
-                  <div className="badge-highlight">4th / 147 Teams</div>
-                  <div className="badge-subtitle">KSRSAC State Award</div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
