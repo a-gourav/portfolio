@@ -5,7 +5,7 @@ import { PROJECTS_DATA } from './projectsData';
 import ThreeBackground from './ThreeBackground';
 import { 
   User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText,
-  X, ExternalLink, CheckCircle2, Sparkles, Maximize2
+  X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote
 } from 'lucide-react';
 
 export default function App() {
@@ -13,6 +13,35 @@ export default function App() {
   const [showTopPill, setShowTopPill] = useState(true);
   const [activeSection, setActiveSection] = useState('top');
   const [aboutTab, setAboutTab] = useState('brief');
+  const [isAboutHovered, setIsAboutHovered] = useState(false);
+  const [aboutTilt, setAboutTilt] = useState({ x: 0, y: 0, px: 50, py: 50 });
+
+  // Subtle auto-cycle every 7 seconds when not hovering
+  useEffect(() => {
+    if (isAboutHovered) return;
+    const tabOrder = ['brief', 'edu', 'stats', 'quote'];
+    const timer = setInterval(() => {
+      setAboutTab((prev) => {
+        const nextIdx = (tabOrder.indexOf(prev) + 1) % tabOrder.length;
+        return tabOrder[nextIdx];
+      });
+    }, 6500);
+    return () => clearInterval(timer);
+  }, [isAboutHovered]);
+
+  const handleAboutMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const px = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+    const py = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    setAboutTilt({ x, y, px, py });
+  };
+
+  const handleAboutMouseLeave = () => {
+    setIsAboutHovered(false);
+    setAboutTilt({ x: 0, y: 0, px: 50, py: 50 });
+  };
   const [cliOpen, setCliOpen] = useState(false);
   const [cliLogs, setCliLogs] = useState([
     "Welcome to Gourav System Console.",
@@ -159,7 +188,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 02 ABOUT (INTERACTIVE 4-TAB CARD MATCHING media_1790910366631.png & media_1790910366633.png) */}
+        {/* 02 ABOUT (INTERACTIVE 3D KINETIC CARD WITH CLASSY TYPOGRAPHY & MOVING EFFECTS) */}
         <section id="about">
           <div className="section-title-wrap">
             <span className="section-big-num">02</span>
@@ -167,114 +196,195 @@ export default function App() {
           </div>
 
           <div className="about-split-container">
-            {/* LEFT INTERACTIVE CARD */}
-            <div className="about-interactive-card">
-              {/* TOP INDEX COUNTER INDICATOR */}
+            {/* LEFT INTERACTIVE 3D KINETIC CARD */}
+            <div 
+              className="about-interactive-card"
+              onMouseMove={handleAboutMouseMove}
+              onMouseEnter={() => setIsAboutHovered(true)}
+              onMouseLeave={handleAboutMouseLeave}
+              style={{
+                transform: `perspective(1000px) rotateX(${aboutTilt.y * -8}deg) rotateY(${aboutTilt.x * 10}deg)`,
+                background: `radial-gradient(550px circle at ${aboutTilt.px}% ${aboutTilt.py}%, rgba(0, 212, 255, 0.12), rgba(6, 10, 18, 0.96) 65%)`
+              }}
+            >
+              {/* Animated glowing moving border beam */}
+              <div className="about-card-glow-beam" aria-hidden="true" />
+
+              {/* TOP INDEX COUNTER & LIVE INDICATOR */}
               <div className="about-card-top-bar">
-                <span className="about-card-kicker">
-                  {aboutTab === 'brief' && '// PERSONAL BRIEF'}
-                  {aboutTab === 'edu' && '// EDUCATION & BACKGROUND'}
-                  {aboutTab === 'stats' && '// KEY HIGHLIGHTS & STATS'}
-                  {aboutTab === 'quote' && '// CORE PHILOSOPHY'}
-                </span>
-                <span className="about-card-counter">
-                  {aboutTab === 'brief' && '01 / 04'}
-                  {aboutTab === 'edu' && '02 / 04'}
-                  {aboutTab === 'stats' && '03 / 04'}
-                  {aboutTab === 'quote' && '04 / 04'}
-                </span>
+                <div className="about-top-kicker-wrap">
+                  <span className="about-live-dot" />
+                  <span className="about-card-kicker">
+                    {aboutTab === 'brief' && '// RESEARCH MANIFESTO & BIO'}
+                    {aboutTab === 'edu' && '// ACADEMIC FOUNDATIONS'}
+                    {aboutTab === 'stats' && '// SHIPPED MILESTONES & IMPACT'}
+                    {aboutTab === 'quote' && '// CORE PHILOSOPHY & VISION'}
+                  </span>
+                </div>
+                <div className="about-card-counter-wrap">
+                  <span className="about-card-counter">
+                    {aboutTab === 'brief' && '01 / 04'}
+                    {aboutTab === 'edu' && '02 / 04'}
+                    {aboutTab === 'stats' && '03 / 04'}
+                    {aboutTab === 'quote' && '04 / 04'}
+                  </span>
+                </div>
               </div>
 
               <div className="about-card-divider" />
 
-              {/* TAB CONTENT AREA */}
-              <div className="about-card-body">
+              {/* TAB CONTENT AREA WITH CLASSY ANIMATED CONTENT */}
+              <div className="about-card-body" key={aboutTab}>
                 {aboutTab === 'brief' && (
-                  <p className="about-tab-text">
-                    "I build things, break things, and occasionally fix things that weren't broken in the first place. Somewhere between bad ideas and too much curiosity, good software tends to happen."
-                  </p>
+                  <div className="about-tab-pane about-pane-brief">
+                    <p className="about-lead-statement">
+                      <span className="about-lead-highlight">"I build machine learning architectures and high-throughput systems</span> that survive real-world distribution shifts."
+                    </p>
+                    <p className="about-body-narrative">
+                      Third-year Computer Science Engineering student at APSCE Bengaluru, targeting machine learning research in <strong>self-supervised representation learning</strong>, <strong>complex-valued neural networks</strong>, and <strong>mechanistic interpretability</strong>. Comfortable taking systems end to end — from mathematical loss design through deployed, hardware-hardened interfaces.
+                    </p>
+                    <div className="about-tech-stack-row">
+                      <span className="about-tech-pill"><Sparkles size={13} color="var(--cyan)" /> PyTorch SSL</span>
+                      <span className="about-tech-pill"><Brain size={13} color="var(--blue)" /> ComplexConv2d</span>
+                      <span className="about-tech-pill"><Activity size={13} color="var(--emerald)" /> VitalDrift</span>
+                      <span className="about-tech-pill"><Cpu size={13} color="var(--cyan)" /> FastAPI &amp; Next.js</span>
+                    </div>
+                  </div>
                 )}
 
                 {aboutTab === 'edu' && (
-                  <div>
-                    <h3 className="about-edu-title">Bachelor of Engineering, Computer Science Engineering</h3>
-                    <p className="about-edu-subtitle">APS College of Engineering, Bengaluru</p>
-                    <div className="about-edu-badge-row">
-                      <span className="about-edu-badge">2024 – 2028 (Expected)</span>
-                      <span className="about-edu-sep">•</span>
-                      <span className="about-edu-location">Bengaluru, Karnataka</span>
+                  <div className="about-tab-pane about-pane-edu">
+                    <div className="about-edu-header">
+                      <div className="about-edu-degree-badge">
+                        <GraduationCap size={15} color="var(--cyan)" />
+                        <span>B.E. COMPUTER SCIENCE &amp; ENGINEERING</span>
+                      </div>
+                      <h3 className="about-edu-title">APS College of Engineering</h3>
+                      <p className="about-edu-subtitle">Bengaluru, Karnataka · Batch 2024 – 2028</p>
                     </div>
-                    <p style={{ marginTop: '0.8rem', fontSize: '0.85rem', color: 'var(--ink-dim)', lineHeight: '1.5' }}>
-                      Relevant coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Machine Learning, Operating Systems, Computer Networks
-                    </p>
+
+                    <div className="about-edu-coursework-section">
+                      <div className="about-coursework-title">CORE CURRICULUM &amp; PROFICIENCIES:</div>
+                      <div className="about-coursework-chips">
+                        <span className="course-chip">Data Structures &amp; Algorithms (250+ solved)</span>
+                        <span className="course-chip">Machine Learning &amp; Deep Neural Nets</span>
+                        <span className="course-chip">Object-Oriented Design &amp; Architecture</span>
+                        <span className="course-chip">Database Management Systems &amp; SQL</span>
+                        <span className="course-chip">Operating Systems &amp; Computer Networks</span>
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {aboutTab === 'stats' && (
-                  <div className="about-stats-grid">
-                    <div className="about-stat-item">
-                      <span className="about-stat-num">4th</span>
-                      <span className="about-stat-label">KSRSAC State Award (out of 147 teams, ₹15,000)</span>
-                    </div>
-                    <div className="about-stat-item">
-                      <span className="about-stat-num">Infosys</span>
-                      <span className="about-stat-label">AI Engineering Intern (Next.js, FastAPI, Supabase)</span>
-                    </div>
-                    <div className="about-stat-item">
-                      <span className="about-stat-num">250+</span>
-                      <span className="about-stat-label">LeetCode Problems Solved (Daily Practice Streak)</span>
-                    </div>
-                    <div className="about-stat-item">
-                      <span className="about-stat-num">300+</span>
-                      <span className="about-stat-label">Day Streak on Duolingo</span>
+                  <div className="about-tab-pane about-pane-stats">
+                    <div className="about-stats-grid">
+                      <div className="about-stat-item stat-item-highlight">
+                        <div className="stat-top-row">
+                          <span className="about-stat-num">4th / 147</span>
+                          <Award size={18} color="var(--amber)" />
+                        </div>
+                        <span className="about-stat-label"><strong>KSRSAC State Award</strong> (Govt. of Karnataka, ₹15,000 Prize for LakeGuard AI)</span>
+                      </div>
+                      <div className="about-stat-item">
+                        <div className="stat-top-row">
+                          <span className="about-stat-num">Infosys</span>
+                          <Zap size={18} color="var(--cyan)" />
+                        </div>
+                        <span className="about-stat-label"><strong>AI Engineering Intern</strong> (Next.js, FastAPI, Supabase, 5 Feedback Agent Engines)</span>
+                      </div>
+                      <div className="about-stat-item">
+                        <div className="stat-top-row">
+                          <span className="about-stat-num">250+</span>
+                          <Code2 size={18} color="var(--blue)" />
+                        </div>
+                        <span className="about-stat-label"><strong>LeetCode DSA Solved</strong> (Sustained daily-practice streak across algorithms)</span>
+                      </div>
+                      <div className="about-stat-item">
+                        <div className="stat-top-row">
+                          <span className="about-stat-num">300+</span>
+                          <Flame size={18} color="var(--emerald)" />
+                        </div>
+                        <span className="about-stat-label"><strong>Day Duolingo Streak</strong> (Active language consistency &amp; focus)</span>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {aboutTab === 'quote' && (
-                  <div>
-                    <h2 className="about-goated-quote">"Stay GOATED 🐐"</h2>
-                    <div className="about-quote-author">— A Gourav</div>
+                  <div className="about-tab-pane about-pane-quote">
+                    <div className="quote-icon-decor"><Quote size={32} /></div>
+                    <blockquote className="about-philosophical-quote">
+                      "A model that only works on pristine lab datasets isn't intelligent — it's fragile. The real engineering begins when the data gets corrupted."
+                    </blockquote>
+                    <div className="about-quote-meta">
+                      <span className="about-quote-author-dot" />
+                      <span className="about-quote-author-name">A GOURAV</span>
+                      <span className="about-quote-author-role">· Machine Learning Research &amp; Systems</span>
+                    </div>
                   </div>
                 )}
               </div>
 
-              {/* BOTTOM 4 TAB NAVIGATION BUTTONS */}
+              {/* BOTTOM 4 TAB NAVIGATION BUTTONS WITH ANIMATED ACTIVE PILL */}
               <div className="about-card-nav-row">
                 <button
                   className={`about-nav-btn ${aboutTab === 'brief' ? 'active' : ''}`}
                   onClick={() => setAboutTab('brief')}
                 >
-                  01 BRIEF
+                  <span className="nav-btn-idx">01</span>
+                  <span>BRIEF</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'edu' ? 'active' : ''}`}
                   onClick={() => setAboutTab('edu')}
                 >
-                  02 EDU
+                  <span className="nav-btn-idx">02</span>
+                  <span>EDU</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'stats' ? 'active' : ''}`}
                   onClick={() => setAboutTab('stats')}
                 >
-                  03 STATS
+                  <span className="nav-btn-idx">03</span>
+                  <span>STATS</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'quote' ? 'active' : ''}`}
                   onClick={() => setAboutTab('quote')}
                 >
-                  04 QUOTE
+                  <span className="nav-btn-idx">04</span>
+                  <span>QUOTE</span>
                 </button>
               </div>
             </div>
 
-            {/* RIGHT PHOTO CARD WITH CORNER RETICLE BRACKETS */}
+            {/* RIGHT PHOTO CARD WITH CORNER RETICLE BRACKETS & FLOATING BADGES */}
             <div className="about-photo-wrapper">
               <div className="photo-reticle reticle-tl">┌</div>
               <div className="photo-reticle reticle-tr">┐</div>
               <div className="photo-reticle reticle-bl">└</div>
               <div className="photo-reticle reticle-br">┘</div>
+
+              {/* Floating tilted animated badge 1 (Top-Left) */}
+              <div className="about-floating-badge badge-top-left">
+                <span className="badge-pulse-dot" />
+                <div className="badge-content">
+                  <div className="badge-highlight">Infosys</div>
+                  <div className="badge-subtitle">AI Engineering Intern</div>
+                </div>
+              </div>
+
               <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="about-photo-img" />
+
+              {/* Floating tilted animated badge 2 (Bottom-Right) */}
+              <div className="about-floating-badge badge-bottom-right">
+                <Award size={15} color="var(--amber)" />
+                <div className="badge-content">
+                  <div className="badge-highlight">4th / 147 Teams</div>
+                  <div className="badge-subtitle">KSRSAC State Award</div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
