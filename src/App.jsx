@@ -8,8 +8,6 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  const [showSideNav, setShowSideNav] = useState(false);
-  const [showTopPill, setShowTopPill] = useState(true);
   const [activeSection, setActiveSection] = useState('top');
 
   // About 3D Kinetic Card State
@@ -116,16 +114,9 @@ export default function App() {
     };
   }, [selectedProject, cliOpen]);
 
-  // Active section scroll tracker & top pill visibility
+  // Active section scroll tracker
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY < 120) {
-        setShowTopPill(true);
-      } else {
-        setShowTopPill(false);
-        setShowSideNav(false);
-      }
-
       const sections = ['about', 'skills', 'experience', 'work', 'questions', 'log', 'certifications', 'contact'];
       let current = 'top';
       sections.forEach((id) => {
@@ -203,46 +194,6 @@ export default function App() {
       {/* Dynamic 3D WebGL / Canvas Background */}
       <ThreeBackground />
 
-      {/* FLOATING SIDE NAV DOCK */}
-      <nav className={`side-nav-dock ${!showSideNav ? 'hidden' : ''}`}>
-        <a href="#about" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'about' ? 'active' : ''}`}>
-          <User size={16} /> <span>About</span>
-        </a>
-        <a href="#skills" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'skills' ? 'active' : ''}`}>
-          <Cpu size={16} /> <span>Skills</span>
-        </a>
-        <a href="#experience" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'experience' ? 'active' : ''}`}>
-          <Briefcase size={16} /> <span>Experience</span>
-        </a>
-        <a href="#work" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'work' ? 'active' : ''}`}>
-          <FolderGit2 size={16} /> <span>Work</span>
-        </a>
-        <a href="#questions" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'questions' ? 'active' : ''}`}>
-          <HelpCircle size={16} /> <span>Research</span>
-        </a>
-        <a href="#log" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'log' ? 'active' : ''}`}>
-          <BookOpen size={16} /> <span>System Log</span>
-        </a>
-        <a href="#certifications" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'certifications' ? 'active' : ''}`}>
-          <Award size={16} /> <span>Certs</span>
-        </a>
-        <a href="#contact" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'contact' ? 'active' : ''}`}>
-          <Mail size={16} /> <span>Contact</span>
-        </a>
-      </nav>
-
-      {/* TOP FLOATING CYBER HUD PILL BAR */}
-      {/* TOP FLOATING HEADER PILL BAR (ONLY SHOWN ON FIRST PAGE HERO, DISAPPEARS ON SCROLL DOWN MATCHING REQUEST) */}
-      <header className={`top-pill-bar ${!showTopPill ? 'hidden-header' : ''}`}>
-        <div className="top-pill-left">
-          <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="top-pill-avatar" />
-          <span className="top-pill-name">A Gourav.</span>
-        </div>
-        <button className="top-pill-menu" onClick={() => setShowSideNav(!showSideNav)}>
-          Menu ☰
-        </button>
-      </header>
-
       {/* MAIN PORTFOLIO WRAPPER */}
       <div className="wrap">
         {/* FRONT PAGE HERO */}
@@ -277,45 +228,29 @@ export default function App() {
               {/* Animated glowing moving border beam */}
               <div className="about-card-glow-beam" aria-hidden="true" />
 
-              {/* TOP INDEX COUNTER & LIVE INDICATOR */}
+              {/* TOP INDEX COUNTER */}
               <div className="about-card-top-bar">
-                <div className="about-top-kicker-wrap">
-                  <span className="about-live-dot" />
-                  <span className="about-card-kicker">
-                    {aboutTab === 'brief' && '// RESEARCH MANIFESTO & BIO'}
-                    {aboutTab === 'edu' && '// ACADEMIC FOUNDATIONS'}
-                    {aboutTab === 'stats' && '// SHIPPED MILESTONES & IMPACT'}
-                    {aboutTab === 'quote' && '// CORE PHILOSOPHY & VISION'}
-                  </span>
-                </div>
-                <div className="about-card-counter-wrap">
-                  <span className="about-card-counter">
-                    {aboutTab === 'brief' && '01 / 04'}
-                    {aboutTab === 'edu' && '02 / 04'}
-                    {aboutTab === 'stats' && '03 / 04'}
-                    {aboutTab === 'quote' && '04 / 04'}
-                  </span>
-                </div>
+                <span className="about-card-kicker">
+                  {aboutTab === 'brief' && '// PERSONAL BRIEF'}
+                  {aboutTab === 'edu' && '// ACADEMIC FOUNDATIONS'}
+                  {aboutTab === 'stats' && '// SHIPPED MILESTONES'}
+                  {aboutTab === 'quote' && '// PHILOSOPHY & VISION'}
+                </span>
+                <span className="about-card-counter">
+                  {aboutTab === 'brief' && '01 / 04'}
+                  {aboutTab === 'edu' && '02 / 04'}
+                  {aboutTab === 'stats' && '03 / 04'}
+                  {aboutTab === 'quote' && '04 / 04'}
+                </span>
               </div>
-
-              <div className="about-card-divider" />
 
               {/* TAB CONTENT AREA */}
               <div className="about-card-body" key={aboutTab}>
                 {aboutTab === 'brief' && (
                   <div className="about-tab-pane about-pane-brief">
                     <p className="about-lead-statement">
-                      <span className="about-lead-highlight">"Third-year Computer Science Engineering student</span> aiming for a career in machine learning research."
+                      "I build things, break things, and occasionally fix things that weren't broken in the first place. Somewhere between bad ideas and too much curiosity, good software tends to happen."
                     </p>
-                    <p className="about-body-narrative">
-                      Hands-on experience in <strong>self-supervised representation learning</strong>, <strong>robustness evaluation of deep models</strong>, and <strong>applied full-stack AI systems</strong>. Builds ML systems end to end, from model architecture to a deployed interface, with a record of shipped, award-winning projects.
-                    </p>
-                    <div className="about-tech-stack-row">
-                      <span className="about-tech-pill"><Sparkles size={13} color="var(--cyan)" /> PyTorch SSL</span>
-                      <span className="about-tech-pill"><Brain size={13} color="var(--blue)" /> ComplexConv2d</span>
-                      <span className="about-tech-pill"><Activity size={13} color="var(--emerald)" /> Multi-Agent RAG</span>
-                      <span className="about-tech-pill"><Cpu size={13} color="var(--cyan)" /> FastAPI &amp; Next.js</span>
-                    </div>
                   </div>
                 )}
 
@@ -401,32 +336,32 @@ export default function App() {
               {/* BOTTOM 4 TAB NAVIGATION BUTTONS */}
               <div className="about-card-nav-row">
                 <button
+                  type="button"
                   className={`about-nav-btn ${aboutTab === 'brief' ? 'active' : ''}`}
                   onClick={() => { setAboutTab('brief'); }}
                 >
-                  <span className="nav-btn-idx">01</span>
-                  <span>BRIEF</span>
+                  01 BRIEF
                 </button>
                 <button
+                  type="button"
                   className={`about-nav-btn ${aboutTab === 'edu' ? 'active' : ''}`}
                   onClick={() => { setAboutTab('edu'); }}
                 >
-                  <span className="nav-btn-idx">02</span>
-                  <span>EDU</span>
+                  02 EDU
                 </button>
                 <button
+                  type="button"
                   className={`about-nav-btn ${aboutTab === 'stats' ? 'active' : ''}`}
                   onClick={() => { setAboutTab('stats'); }}
                 >
-                  <span className="nav-btn-idx">03</span>
-                  <span>STATS</span>
+                  03 STATS
                 </button>
                 <button
+                  type="button"
                   className={`about-nav-btn ${aboutTab === 'quote' ? 'active' : ''}`}
                   onClick={() => { setAboutTab('quote'); }}
                 >
-                  <span className="nav-btn-idx">04</span>
-                  <span>QUOTE</span>
+                  04 QUOTE
                 </button>
               </div>
             </div>
