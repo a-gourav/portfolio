@@ -1,22 +1,59 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ASSETS } from './assetsData';
 import { PROJECTS_DATA } from './projectsData';
 import ThreeBackground from './ThreeBackground';
+import { playSound } from './soundUtil';
 import { 
   User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText,
-  X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote
+  X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote, Volume2, VolumeX, ChevronDown, Compass
 } from 'lucide-react';
+
+const HERO_ROLES = [
+  "AI Engineering Intern @ Infosys",
+  "Machine Learning Researcher",
+  "Complex-Valued Deep Nets & SAR Intelligence",
+  "Autonomous Multi-Agent Systems"
+];
 
 export default function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [showTopPill, setShowTopPill] = useState(true);
   const [activeSection, setActiveSection] = useState('top');
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [heroRoleIndex, setHeroRoleIndex] = useState(0);
+
+  // About 3D Kinetic Card State
   const [aboutTab, setAboutTab] = useState('brief');
   const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [aboutTilt, setAboutTilt] = useState({ x: 0, y: 0, px: 50, py: 50 });
 
-  // Subtle auto-cycle every 7 seconds when not hovering
+  // Work Cards 3D Interactive Tilt State (keyed by project.id)
+  const [workTilts, setWorkTilts] = useState({});
+
+  // CLI System Console State
+  const [cliOpen, setCliOpen] = useState(false);
+  const [cliLogs, setCliLogs] = useState([
+    "┌────────────────────────────────────────────────────────────┐",
+    "│   GOURAV SECURE SYSTEM CONSOLE · BENGALURU NODE ACTIVE     │",
+    "│   Machine Learning Intelligence & Autonomous Swarm Core   │",
+    "└────────────────────────────────────────────────────────────┘",
+    "System ready. Type 'help' or click command chips below."
+  ]);
+  const [cliInputVal, setCliInputVal] = useState('');
+  const cliBodyRef = useRef(null);
+  const cliInputRef = useRef(null);
+
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  // Rotate Hero Roles every 2.8 seconds
+  useEffect(() => {
+    const roleTimer = setInterval(() => {
+      setHeroRoleIndex((prev) => (prev + 1) % HERO_ROLES.length);
+    }, 2800);
+    return () => clearInterval(roleTimer);
+  }, []);
+
+  // Subtle auto-cycle for About tabs every 6.5s when not hovering
   useEffect(() => {
     if (isAboutHovered) return;
     const tabOrder = ['brief', 'edu', 'stats', 'quote'];
@@ -42,21 +79,50 @@ export default function App() {
     setIsAboutHovered(false);
     setAboutTilt({ x: 0, y: 0, px: 50, py: 50 });
   };
-  const [cliOpen, setCliOpen] = useState(false);
-  const [cliLogs, setCliLogs] = useState([
-    "Welcome to Gourav System Console.",
-    "Type 'help' for available commands."
-  ]);
-  const [cliInputVal, setCliInputVal] = useState('');
-  const [openNote, setOpenNote] = useState(null);
-  const [selectedProject, setSelectedProject] = useState(null);
 
-  // Lock body scroll and handle Escape key when project brief modal is open
+  // Work Cards 3D tilt handlers
+  const handleWorkMouseMove = (e, id) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const px = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+    const py = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    setWorkTilts(prev => ({
+      ...prev,
+      [id]: { x, y, px, py, isHovered: true }
+    }));
+  };
+
+  const handleWorkMouseLeave = (id) => {
+    setWorkTilts(prev => ({
+      ...prev,
+      [id]: { x: 0, y: 0, px: 50, py: 50, isHovered: false }
+    }));
+  };
+
+  // Auto-scroll CLI output
+  useEffect(() => {
+    if (cliBodyRef.current) {
+      cliBodyRef.current.scrollTop = cliBodyRef.current.scrollHeight;
+    }
+  }, [cliLogs, cliOpen]);
+
+  // Focus CLI input on open
+  useEffect(() => {
+    if (cliOpen && cliInputRef.current) {
+      cliInputRef.current.focus();
+    }
+  }, [cliOpen]);
+
+  // Lock body scroll and handle Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setSelectedProject(null);
+      if (e.key === 'Escape') {
+        if (cliOpen) setCliOpen(false);
+        if (selectedProject) setSelectedProject(null);
+      }
     };
-    if (selectedProject) {
+    if (selectedProject || cliOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     } else {
@@ -66,12 +132,11 @@ export default function App() {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedProject]);
+  }, [selectedProject, cliOpen]);
 
-  // Active section scroll tracker & top pill visibility (ONLY show top pill on hero front page)
+  // Active section scroll tracker & top pill visibility
   useEffect(() => {
     const handleScroll = () => {
-      // Top header pill bar disappears when scrolling past hero front page (window.scrollY > 120)
       if (window.scrollY < 120) {
         setShowTopPill(true);
       } else {
@@ -79,12 +144,12 @@ export default function App() {
         setShowSideNav(false);
       }
 
-      const sections = ['about', 'skills', 'experience', 'work', 'questions', 'notes', 'certifications', 'log', 'resume', 'contact'];
+      const sections = ['about', 'skills', 'experience', 'work', 'questions', 'log', 'certifications', 'contact'];
       let current = 'top';
       sections.forEach((id) => {
         const el = document.getElementById(id);
         if (el) {
-          const top = el.offsetTop - 200;
+          const top = el.offsetTop - 220;
           if (window.scrollY >= top) current = id;
         }
       });
@@ -94,6 +159,7 @@ export default function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   const downloadResume = () => {
     const pdfB64 = ASSETS.pdfB64;
     if (!pdfB64) return;
@@ -109,82 +175,221 @@ export default function App() {
     document.body.removeChild(link);
   };
 
-  // CLI Command Execution
+  // CLI Command Execution Logic
+  const executeCliCommand = (cmdText) => {
+    const cmd = cmdText.trim().toLowerCase();
+    if (!cmd) return;
+    playSound('terminal', soundEnabled);
+
+    let response = "";
+    if (cmd === 'help') {
+      response = "COMMANDS: bio | experience | projects | skills | awards | matrix | resume | contact | clear";
+    } else if (cmd === 'bio') {
+      response = "A Gourav — Third-year CS Engineering student at APS College of Engineering, Bengaluru. Machine learning researcher focusing on self-supervised representation learning, complex-valued neural networks, and robust autonomous systems.";
+    } else if (cmd === 'experience') {
+      response = "AI Engineering Intern @ Infosys, Bengaluru (June 2026 – Present)\nProject: SupportPilot — Autonomous AI Support Desk & Multi-Agent Resolution System.\n• 92%+ triage accuracy via TF-IDF & Logistic Regression (P1-P4 priorities)\n• 5-Agent RAG Swarm with citation-grounded enterprise retrieval\n• Jira REST API deterministic escalation (≥70% confidence threshold)\n• JWT-secured Chart.js telemetry tracking 9 operational KPIs (MTTR, CSAT).";
+    } else if (cmd === 'projects') {
+      response = "001. PhysioShift — Cross-Hardware Robust Biosignals Representation Learning (PyTorch)\n002. LakeGuard AI — Autonomous IoT Swarm & Anomaly Detection (4th/147 KSRSAC Award)\n003. PhaseSAR-Net — Complex-Valued SAR Intelligence (ComplexConv2d, MSTAR Benchmark)";
+    } else if (cmd === 'skills') {
+      response = "Languages: Python, Java, C++, TypeScript, SQL\nML / Systems: PyTorch, Complex CNNs, RAG, Multi-Agent Swarms, FastAPI, Next.js, Docker, IoT (ESP32)";
+    } else if (cmd === 'awards') {
+      response = "🏆 4th of 147 Teams, KSRSAC State Student Innovation Exhibition (Govt. of Karnataka, ₹15,000 Award)\n💻 250+ LeetCode DSA Solved (Continuous Practice Streak)\n🔥 300+ Day Duolingo Streak";
+    } else if (cmd === 'resume') {
+      downloadResume();
+      response = "Downloading verified resume (GOURAV_RESUME.pdf)...";
+    } else if (cmd === 'contact') {
+      response = "Email: amdggourav@gmail.com | LinkedIn: /in/gourav-a-450148360 | GitHub: github.com/a-gourav";
+    } else if (cmd === 'matrix') {
+      response = "[MATRIX STREAM] Complex spectrum synchronized. PhaseSAR-Net weights calibrated. Zero-shot transfer operational.";
+    } else if (cmd === 'clear') {
+      setCliLogs([]);
+      return;
+    } else {
+      response = `Unknown command: '${cmd}'. Type 'help' for valid commands.`;
+    }
+
+    setCliLogs((prev) => [...prev, `> ${cmd}`, response]);
+  };
+
   const handleCliSubmit = (e) => {
     if (e.key === 'Enter') {
-      const cmd = cliInputVal.trim().toLowerCase();
+      executeCliCommand(cliInputVal);
       setCliInputVal('');
-      if (!cmd) return;
-
-      let response = "";
-      if (cmd === 'help') response = "Available: bio, experience, projects, skills, awards, questions, resume, clear";
-      else if (cmd === 'bio') response = "A Gourav — Third-year CS Engineering student at APSCE working toward ML research (self-supervised learning, mechanistic interpretability, edge AI).";
-      else if (cmd === 'experience') response = "AI Engineering Intern at Infosys, Bengaluru (June 2026 – Present) · Project: SupportPilot — Autonomous AI Support Desk & Multi-Agent Resolution System (Python, Flask, RAG, 5-Agent Swarm, Jira REST API).";
-      else if (cmd === 'projects') response = "001.PhysioShift (Cross-Hardware Biosignals) | 002.LakeGuard AI (IoT Lake Sentinel) | 003.PhaseSAR-Net (Complex-Valued SAR ATR)";
-      else if (cmd === 'resume') { downloadResume(); response = 'Downloading updated verified resume (GOURAV_RESUME.pdf)...'; }
-      else if (cmd === 'skills') response = "Python, Java, C++, React.js, FastAPI, Next.js, Supabase, PyTorch, Edge AI, IoT, Docker, Git";
-      else if (cmd === 'awards') response = "4th Place of 147 teams, KSRSAC State-Level Student Innovation Exhibition (₹15,000 Award) | 250+ LeetCode DSA | 300+ Day Duolingo Streak";
-      else if (cmd === 'questions') response = "RQ-001: Can a physiological model learn the signal without learning the device?";
-      else if (cmd === 'clear') { setCliLogs([]); return; }
-      else response = `Unknown command: '${cmd}'`;
-
-      setCliLogs((prev) => [...prev, `> ${cmd}`, response]);
     }
   };
 
   return (
     <div>
-      {/* 3D WebGL Background Canvas */}
+      {/* Dynamic 3D WebGL / Canvas Background */}
       <ThreeBackground />
 
-      {/* FLOATING SIDE NAV DOCK (ONLY SHOWN WHEN USER CLICKS MENU ☰ ON HERO/HEADER) */}
+      {/* FLOATING SIDE NAV DOCK */}
       <nav className={`side-nav-dock ${!showSideNav ? 'hidden' : ''}`}>
-        <a href="#about" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'about' ? 'active' : ''}`}>
+        <a href="#about" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'about' ? 'active' : ''}`}>
           <User size={16} /> <span>About</span>
         </a>
-        <a href="#skills" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'skills' ? 'active' : ''}`}>
+        <a href="#skills" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'skills' ? 'active' : ''}`}>
           <Cpu size={16} /> <span>Skills</span>
         </a>
-        <a href="#experience" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'experience' ? 'active' : ''}`}>
+        <a href="#experience" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'experience' ? 'active' : ''}`}>
           <Briefcase size={16} /> <span>Experience</span>
         </a>
-        <a href="#work" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'work' ? 'active' : ''}`}>
+        <a href="#work" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'work' ? 'active' : ''}`}>
           <FolderGit2 size={16} /> <span>Work</span>
         </a>
-        <a href="#questions" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'questions' ? 'active' : ''}`}>
+        <a href="#questions" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'questions' ? 'active' : ''}`}>
           <HelpCircle size={16} /> <span>Research</span>
         </a>
-        <a href="#log" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'log' ? 'active' : ''}`}>
+        <a href="#log" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'log' ? 'active' : ''}`}>
           <BookOpen size={16} /> <span>System Log</span>
         </a>
-        <a href="#certifications" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'certifications' ? 'active' : ''}`}>
+        <a href="#certifications" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'certifications' ? 'active' : ''}`}>
           <Award size={16} /> <span>Certs</span>
         </a>
-        <a href="#contact" onClick={() => setShowSideNav(false)} className={`side-tab-btn ${activeSection === 'contact' ? 'active' : ''}`}>
+        <a href="#contact" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'contact' ? 'active' : ''}`}>
           <Mail size={16} /> <span>Contact</span>
         </a>
       </nav>
 
-      {/* TOP FLOATING HEADER PILL BAR (ONLY SHOWN ON FIRST PAGE HERO, DISAPPEARS ON SCROLL DOWN MATCHING REQUEST) */}
+      {/* TOP FLOATING CYBER HUD PILL BAR */}
       <header className={`top-pill-bar ${!showTopPill ? 'hidden-header' : ''}`}>
         <div className="top-pill-left">
           <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="top-pill-avatar" />
           <span className="top-pill-name">A Gourav.</span>
         </div>
-        <button className="top-pill-menu" onClick={() => setShowSideNav(!showSideNav)}>
-          Menu ☰
-        </button>
+        <div className="top-pill-right">
+          <button 
+            className={`top-pill-icon-btn ${soundEnabled ? 'active' : ''}`}
+            onClick={() => {
+              const next = !soundEnabled;
+              setSoundEnabled(next);
+              if (next) playSound('click', true);
+            }}
+            title={soundEnabled ? 'Mute Cyber Audio FX' : 'Enable Cyber Audio FX'}
+          >
+            {soundEnabled ? <Volume2 size={15} color="var(--cyan)" /> : <VolumeX size={15} color="var(--ink-dim)" />}
+            <span className="top-pill-btn-label">FX</span>
+          </button>
+          <button 
+            className="top-pill-icon-btn" 
+            onClick={() => { playSound('open', soundEnabled); setCliOpen(true); }}
+            title="Open Interactive Cyber Terminal"
+          >
+            <Terminal size={15} color="var(--cyan)" />
+            <span className="top-pill-btn-label">CLI</span>
+          </button>
+          <button 
+            className="top-pill-menu" 
+            onClick={() => { playSound('click', soundEnabled); setShowSideNav(!showSideNav); }}
+          >
+            Menu ☰
+          </button>
+        </div>
       </header>
 
-      {/* MAIN PORTFOLIO SECTIONS */}
+      {/* MAIN PORTFOLIO WRAPPER */}
       <div className="wrap">
-        {/* FRONT PAGE HERO */}
+        {/* 01 HIGH-IMPACT ATTENTION-SEEKING FRONT PAGE HERO */}
         <section id="top" className="hero-front-page">
-          <h1 className="hero-name-animated">A Gourav</h1>
-          <div className="hero-sublinks">
-            <a href="#contact" className="hero-sublink-item">Contact Me</a>
-            <span className="hero-sublink-sep">|</span>
-            <button onClick={downloadResume} className="hero-sublink-item btn-link">View Resume ↗</button>
+          {/* LIVE STATUS RADAR BEACON */}
+          <div className="hero-status-beacon" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            <span className="beacon-radar-pulse" />
+            <span className="beacon-radar-dot" />
+            <span className="beacon-label">AVAILABLE FOR ML RESEARCH &amp; AI SYSTEMS ROLES</span>
+            <span className="beacon-sep">·</span>
+            <span className="beacon-city">BENGALURU, IN</span>
+          </div>
+
+          {/* GIANT HOLOGRAPHIC SHIMMER NAME */}
+          <h1 className="hero-name-animated" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            A Gourav
+          </h1>
+
+          {/* KINETIC ROTATING HEADLINE */}
+          <div className="hero-role-carousel">
+            <Sparkles size={16} className="hero-sparkle-icon" />
+            <span className="hero-role-text" key={heroRoleIndex}>
+              {HERO_ROLES[heroRoleIndex]}
+            </span>
+          </div>
+
+          {/* ATTENTION-SEEKING MANIFESTO */}
+          <p className="hero-manifesto-sub">
+            Architecting self-supervised representations, complex-valued SAR intelligence &amp; autonomous multi-agent systems that survive real-world distribution shifts.
+          </p>
+
+          {/* HERO HUD QUICK-STATS CAPSULE RIBBON */}
+          <div className="hero-hud-ribbon">
+            <a href="#experience" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
+              <div className="hud-pill-icon"><Zap size={16} color="var(--cyan)" /></div>
+              <div className="hud-pill-content">
+                <span className="hud-pill-title">Infosys AI Intern</span>
+                <span className="hud-pill-sub">SupportPilot Swarm (Python/Flask)</span>
+              </div>
+            </a>
+
+            <a href="#log" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
+              <div className="hud-pill-icon"><Award size={16} color="var(--amber)" /></div>
+              <div className="hud-pill-content">
+                <span className="hud-pill-title">4th / 147 Teams</span>
+                <span className="hud-pill-sub">KSRSAC State Innovation Award</span>
+              </div>
+            </a>
+
+            <a href="#skills" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
+              <div className="hud-pill-icon"><Code2 size={16} color="var(--blue)" /></div>
+              <div className="hud-pill-content">
+                <span className="hud-pill-title">250+ LeetCode DSA</span>
+                <span className="hud-pill-sub">Sustained Daily Consistency</span>
+              </div>
+            </a>
+
+            <a href="#work" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
+              <div className="hud-pill-icon"><Brain size={16} color="var(--emerald)" /></div>
+              <div className="hud-pill-content">
+                <span className="hud-pill-title">3 Shipped ML Builds</span>
+                <span className="hud-pill-sub">PhysioShift · PhaseSAR · IoT</span>
+              </div>
+            </a>
+          </div>
+
+          {/* INTERACTIVE ACTION CLUSTER */}
+          <div className="hero-action-cluster">
+            <a 
+              href="#work" 
+              className="hero-btn-primary" 
+              onClick={() => playSound('click', soundEnabled)}
+            >
+              <Compass size={17} />
+              <span>Explore Projects</span>
+              <ChevronDown size={16} className="btn-bounce-icon" />
+            </a>
+
+            <button 
+              onClick={() => { playSound('action', soundEnabled); downloadResume(); }} 
+              className="hero-btn-secondary"
+            >
+              <Download size={16} />
+              <span>Download Resume</span>
+              <ExternalLink size={14} />
+            </button>
+
+            <button 
+              onClick={() => { playSound('open', soundEnabled); setCliOpen(true); }} 
+              className="hero-btn-terminal"
+              title="Launch Terminal Console"
+            >
+              <Terminal size={16} />
+              <span>Launch CLI ⚡</span>
+            </button>
+          </div>
+
+          {/* SCROLL CUE */}
+          <div className="hero-scroll-cue">
+            <div className="scroll-mouse-pill">
+              <span className="scroll-wheel-dot" />
+            </div>
+            <span className="scroll-cue-text">SCROLL TO DISCOVER</span>
           </div>
         </section>
 
@@ -200,11 +405,11 @@ export default function App() {
             <div 
               className="about-interactive-card"
               onMouseMove={handleAboutMouseMove}
-              onMouseEnter={() => setIsAboutHovered(true)}
+              onMouseEnter={() => { playSound('hover', soundEnabled); setIsAboutHovered(true); }}
               onMouseLeave={handleAboutMouseLeave}
               style={{
                 transform: `perspective(1000px) rotateX(${aboutTilt.y * -8}deg) rotateY(${aboutTilt.x * 10}deg)`,
-                background: `radial-gradient(550px circle at ${aboutTilt.px}% ${aboutTilt.py}%, rgba(0, 212, 255, 0.12), rgba(6, 10, 18, 0.96) 65%)`
+                background: `radial-gradient(550px circle at ${aboutTilt.px}% ${aboutTilt.py}%, rgba(0, 212, 255, 0.14), rgba(6, 10, 18, 0.96) 65%)`
               }}
             >
               {/* Animated glowing moving border beam */}
@@ -233,7 +438,7 @@ export default function App() {
 
               <div className="about-card-divider" />
 
-              {/* TAB CONTENT AREA WITH CLASSY ANIMATED CONTENT */}
+              {/* TAB CONTENT AREA */}
               <div className="about-card-body" key={aboutTab}>
                 {aboutTab === 'brief' && (
                   <div className="about-tab-pane about-pane-brief">
@@ -291,7 +496,7 @@ export default function App() {
                           <span className="about-stat-num">Infosys</span>
                           <Zap size={18} color="var(--cyan)" />
                         </div>
-                        <span className="about-stat-label"><strong>AI Engineering Intern</strong> (SupportPilot: Python, Flask, RAG &amp; 5-Agent Resolution Swarm)</span>
+                        <span className="about-stat-label"><strong>AI Engineering Intern</strong> (SupportPilot: Python, Flask, RAG &amp; 5-Agent Swarm)</span>
                       </div>
                       <div className="about-stat-item">
                         <div className="stat-top-row">
@@ -326,32 +531,32 @@ export default function App() {
                 )}
               </div>
 
-              {/* BOTTOM 4 TAB NAVIGATION BUTTONS WITH ANIMATED ACTIVE PILL */}
+              {/* BOTTOM 4 TAB NAVIGATION BUTTONS */}
               <div className="about-card-nav-row">
                 <button
                   className={`about-nav-btn ${aboutTab === 'brief' ? 'active' : ''}`}
-                  onClick={() => setAboutTab('brief')}
+                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('brief'); }}
                 >
                   <span className="nav-btn-idx">01</span>
                   <span>BRIEF</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'edu' ? 'active' : ''}`}
-                  onClick={() => setAboutTab('edu')}
+                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('edu'); }}
                 >
                   <span className="nav-btn-idx">02</span>
                   <span>EDU</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'stats' ? 'active' : ''}`}
-                  onClick={() => setAboutTab('stats')}
+                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('stats'); }}
                 >
                   <span className="nav-btn-idx">03</span>
                   <span>STATS</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'quote' ? 'active' : ''}`}
-                  onClick={() => setAboutTab('quote')}
+                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('quote'); }}
                 >
                   <span className="nav-btn-idx">04</span>
                   <span>QUOTE</span>
@@ -359,7 +564,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* RIGHT PHOTO CARD WITH CORNER RETICLE BRACKETS */}
+            {/* RIGHT PHOTO CARD WITH CORNER RETICLES */}
             <div className="about-photo-wrapper">
               <div className="photo-reticle reticle-tl">┌</div>
               <div className="photo-reticle reticle-tr">┐</div>
@@ -370,7 +575,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 03 SKILLS (TRUE 100VW FULLSCREEN BREAKOUT SECTION MATCHING media_1790876991069.png) */}
+        {/* 03 SKILLS (FULLWIDTH STREAMING MARQUEE) */}
         <section id="skills" className="skills-fullscreen-section">
           <div className="skills-header-wrap">
             <div className="section-title-wrap section-title-right">
@@ -457,7 +662,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 05 WORK */}
+        {/* 05 WORK (WITH INTERACTIVE 3D PARALLAX CARDS) */}
         <section id="work">
           <div className="section-title-wrap">
             <span className="section-big-num">05</span>
@@ -465,39 +670,60 @@ export default function App() {
           </div>
 
           <div className="work-grid-container">
-            {PROJECTS_DATA.map((project) => (
-              <div 
-                key={project.id} 
-                className={`work-card-large ${project.id === 'phasesar' ? 'work-card-full' : ''}`}
-                onClick={() => setSelectedProject(project)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedProject(project); } }}
-                title={`Click to view full project brief for ${project.title}`}
-              >
-                <div className="work-orb-banner">
-                  <div className={`work-orb ${project.orbClass}`} />
-                  <div className="work-card-click-pill">
-                    <Maximize2 size={12} />
-                    <span>View Project Brief ↗</span>
+            {PROJECTS_DATA.map((project) => {
+              const tilt = workTilts[project.id] || { x: 0, y: 0, px: 50, py: 50, isHovered: false };
+              return (
+                <div 
+                  key={project.id} 
+                  className={`work-card-large ${project.id === 'phasesar' ? 'work-card-full' : ''}`}
+                  onClick={() => { playSound('open', soundEnabled); setSelectedProject(project); }}
+                  onMouseMove={(e) => handleWorkMouseMove(e, project.id)}
+                  onMouseEnter={() => playSound('hover', soundEnabled)}
+                  onMouseLeave={() => handleWorkMouseLeave(project.id)}
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    transform: tilt.isHovered 
+                      ? `perspective(1000px) rotateX(${tilt.y * -8}deg) rotateY(${tilt.x * 10}deg) translateY(-6px) scale(1.015)`
+                      : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)',
+                    background: tilt.isHovered 
+                      ? `radial-gradient(550px circle at ${tilt.px}% ${tilt.py}%, rgba(0, 212, 255, 0.16), rgba(8, 12, 20, 0.96) 60%)`
+                      : 'rgba(10, 14, 22, 0.94)',
+                    borderColor: tilt.isHovered ? 'rgba(0, 212, 255, 0.55)' : 'rgba(255, 255, 255, 0.1)',
+                    boxShadow: tilt.isHovered 
+                      ? '0 30px 60px rgba(0,0,0,0.85), 0 0 35px rgba(0, 212, 255, 0.25)' 
+                      : '0 20px 45px rgba(0, 0, 0, 0.65)'
+                  }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedProject(project); } }}
+                  title={`Click to view full project brief for ${project.title}`}
+                >
+                  <div className="work-orb-banner">
+                    <div className={`work-orb ${project.orbClass}`} />
+                    <div className="work-card-click-pill">
+                      <Maximize2 size={12} />
+                      <span>Interactive Brief ↗</span>
+                    </div>
+                  </div>
+                  <div className="work-card-body">
+                    <div className="work-badge">{project.badge}</div>
+                    <p className="work-text">{project.shortDesc}</p>
+                    <div className="work-tags-row">
+                      {project.tags.slice(0, 4).map(t => <span key={t} className="work-tag-item">{t}</span>)}
+                    </div>
+                    <div className="work-footer">
+                      <span className="work-num">{project.num}</span>
+                      <span className="work-read-cta">
+                        Read Brief <Sparkles size={13} style={{ marginLeft: '4px', verticalAlign: 'middle' }} />
+                      </span>
+                      <span className="work-status-badge">
+                        <span className="work-status-dot" style={{ backgroundColor: project.color }} />
+                        {project.status}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="work-card-body">
-                  <div className="work-badge">{project.badge}</div>
-                  <p className="work-text">{project.shortDesc}</p>
-                  <div className="work-tags-row">
-                    {project.tags.slice(0, 4).map(t => <span key={t} className="work-tag-item">{t}</span>)}
-                  </div>
-                  <div className="work-footer">
-                    <span className="work-num">{project.num}</span>
-                    <span className="work-read-cta">
-                      Read Brief <Sparkles size={13} style={{ marginLeft: '4px', verticalAlign: 'middle' }} />
-                    </span>
-                    <span>{project.status}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -509,29 +735,29 @@ export default function App() {
           </div>
 
           <div className="research-questions-grid">
-            <div className="rq-card">
+            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
               <div className="rq-tag">RQ-001 · PhysioShift</div>
               <p className="rq-quote">"Can a physiological model learn the signal without learning the device?"</p>
             </div>
 
-            <div className="rq-card">
+            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
               <div className="rq-tag">RQ-002 · Phase</div>
               <p className="rq-quote">"Can a SAR model preserve phase information—and still recognize a scene when the signal is corrupted?"</p>
             </div>
 
-            <div className="rq-card">
+            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
               <div className="rq-tag">RQ-003 · Magnitude</div>
               <p className="rq-quote">"What does a model lose when it sees only SAR magnitude, but not phase?"</p>
             </div>
 
-            <div className="rq-card">
+            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
               <div className="rq-tag">RQ-004 · Physics</div>
               <p className="rq-quote">"Can physics-aware constraints make SAR predictions more reliable than accuracy alone?"</p>
             </div>
           </div>
         </section>
 
-        {/* 07 SYSTEM LOG (SEPARATE INDIVIDUAL CARDS WITH DESCRIPTIONS) */}
+        {/* 07 SYSTEM LOG */}
         <section id="log">
           <div className="section-title-wrap">
             <span className="section-big-num">07</span>
@@ -577,7 +803,7 @@ export default function App() {
             <div className="glass-panel">
               <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--cyan)' }}>ORACLE · ISSUED JAN 2026</div>
               <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>Oracle AI Foundations Associate</h3>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Machine Learning, Generative AI & Deep Learning Core</p>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Machine Learning, Generative AI &amp; Deep Learning Core</p>
             </div>
 
             <div className="glass-panel">
@@ -587,7 +813,7 @@ export default function App() {
             </div>
 
             <div className="glass-panel">
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--amber)' }}>ALGORITHMS & DSA</div>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--amber)' }}>ALGORITHMS &amp; DSA</div>
               <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>250+ LeetCode Solved</h3>
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Sustained daily-practice streak across DSA topics</p>
             </div>
@@ -606,7 +832,7 @@ export default function App() {
               <h3 style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '0.4rem' }}>Download Verified Resume</h3>
               <p style={{ color: 'var(--ink-dim)', maxWidth: '550px' }}>A one-page snapshot of my education, projects, and skills — updated as new things ship.</p>
             </div>
-            <button onClick={downloadResume} style={{
+            <button onClick={() => { playSound('action', soundEnabled); downloadResume(); }} style={{
               background: 'linear-gradient(135deg, var(--cyan), #0088ff)',
               color: '#000',
               fontFamily: 'var(--mono)',
@@ -618,7 +844,8 @@ export default function App() {
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem'
+              gap: '0.5rem',
+              boxShadow: '0 0 25px rgba(0, 212, 255, 0.4)'
             }}>
               <Download size={16} /> <span>Download Resume PDF</span>
             </button>
@@ -628,12 +855,12 @@ export default function App() {
             <div className="footer-columns-grid">
               <div className="footer-col">
                 <span className="footer-col-title">NAVIGATION</span>
-                <a href="#top" className="footer-nav-link">HOME</a>
-                <a href="#about" className="footer-nav-link">ABOUT</a>
-                <a href="#skills" className="footer-nav-link">SKILLS</a>
-                <a href="#work" className="footer-nav-link">PROJECTS</a>
-                <a href="#experience" className="footer-nav-link">EXPERIENCE</a>
-                <a href="#contact" className="footer-nav-link">CONTACT</a>
+                <a href="#top" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>HOME</a>
+                <a href="#about" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>ABOUT</a>
+                <a href="#skills" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>SKILLS</a>
+                <a href="#work" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>PROJECTS</a>
+                <a href="#experience" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>EXPERIENCE</a>
+                <a href="#contact" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>CONTACT</a>
               </div>
 
               <div className="footer-col">
@@ -645,12 +872,12 @@ export default function App() {
 
               <div className="footer-col">
                 <span className="footer-col-title">LET'S CONNECT ✦</span>
-                <p className="footer-connect-desc">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
-                <a href="mailto:amdggourav@gmail.com" className="footer-say-hello-btn">SAY HELLO</a>
+                <p className="footer-connect-desc">Always open to discussing machine learning research, internships, and high-impact systems engineering.</p>
+                <a href="mailto:amdggourav@gmail.com" className="footer-say-hello-btn" onClick={() => playSound('click', soundEnabled)}>SAY HELLO</a>
               </div>
             </div>
 
-            {/* GIANT CALLIGRAPHY SINGLE-LINE NAME (MATCHING SCREENSHOT) */}
+            {/* GIANT CALLIGRAPHY SINGLE-LINE NAME */}
             <div className="footer-giant-single-wrapper">
               <h1 className="giant-calligraphy-name">A Gourav</h1>
             </div>
@@ -663,6 +890,62 @@ export default function App() {
           </div>
         </section>
       </div>
+
+      {/* INTERACTIVE CYBER CLI TERMINAL MODAL */}
+      {cliOpen && (
+        <div 
+          className="cli-modal-backdrop" 
+          onClick={() => setCliOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cli-modal-title"
+        >
+          <div className="cli-window" onClick={(e) => e.stopPropagation()}>
+            <div className="cli-window-topbar">
+              <div className="cli-traffic-dots">
+                <span className="dot dot-red" onClick={() => setCliOpen(false)} title="Close Terminal" />
+                <span className="dot dot-yellow" title="Minimize" />
+                <span className="dot dot-green" title="Maximize" />
+              </div>
+              <div id="cli-modal-title" className="cli-window-title">gourav@core-system: ~ (bash · interactive v2.4)</div>
+              <button className="cli-close-btn" onClick={() => setCliOpen(false)} aria-label="Close terminal">
+                <X size={15} />
+              </button>
+            </div>
+
+            <div className="cli-quick-commands-bar">
+              <span className="cli-quick-label">QUICK CMDS:</span>
+              {['help', 'bio', 'experience', 'projects', 'skills', 'awards', 'matrix', 'resume', 'clear'].map((c) => (
+                <button key={c} className="cli-chip-btn" onClick={() => executeCliCommand(c)}>{c}</button>
+              ))}
+            </div>
+
+            <div className="cli-body" ref={cliBodyRef}>
+              {cliLogs.map((log, idx) => (
+                <div 
+                  key={idx} 
+                  className={`cli-log-line ${log.startsWith('>') ? 'cli-input-echo' : ''} ${log.startsWith('[MATRIX]') ? 'cli-matrix-line' : ''}`}
+                  style={{ whiteSpace: 'pre-wrap' }}
+                >
+                  {log}
+                </div>
+              ))}
+              <div className="cli-input-row">
+                <span className="cli-prompt">gourav@core:~$</span>
+                <input
+                  ref={cliInputRef}
+                  type="text"
+                  className="cli-real-input"
+                  value={cliInputVal}
+                  onChange={(e) => setCliInputVal(e.target.value)}
+                  onKeyDown={handleCliSubmit}
+                  placeholder="type command (e.g. 'experience', 'projects', 'matrix')..."
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* INTERACTIVE PROJECT BRIEF MODAL */}
       {selectedProject && (
@@ -718,7 +1001,7 @@ export default function App() {
               <div className="project-modal-section">
                 <div className="project-modal-section-title">
                   <Sparkles size={15} color="var(--project-accent)" />
-                  <span>Key Innovations & Methodology</span>
+                  <span>Key Innovations &amp; Methodology</span>
                 </div>
                 <div className="project-modal-innovations-list">
                   {selectedProject.innovations.map((item, idx) => (
@@ -737,7 +1020,7 @@ export default function App() {
               <div className="project-modal-section">
                 <div className="project-modal-section-title">
                   <Layers size={15} color="var(--project-accent)" />
-                  <span>Architecture & Pipeline</span>
+                  <span>Architecture &amp; Pipeline</span>
                 </div>
                 <div className="project-modal-arch-box">
                   <code>{selectedProject.architecture}</code>
@@ -748,7 +1031,7 @@ export default function App() {
               <div className="project-modal-section">
                 <div className="project-modal-section-title">
                   <Award size={15} color="var(--project-accent)" />
-                  <span>Impact & Key Results</span>
+                  <span>Impact &amp; Key Results</span>
                 </div>
                 <div className="project-modal-metrics-grid">
                   {selectedProject.metrics.map((m, idx) => (
@@ -764,7 +1047,7 @@ export default function App() {
               <div className="project-modal-section">
                 <div className="project-modal-section-title">
                   <Cpu size={15} color="var(--project-accent)" />
-                  <span>Technology & Stack</span>
+                  <span>Technology &amp; Stack</span>
                 </div>
                 <div className="project-modal-tags-row">
                   {selectedProject.tags.map(t => (
