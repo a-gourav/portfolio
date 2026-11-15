@@ -119,7 +119,7 @@ export default function App() {
       let response = "";
       if (cmd === 'help') response = "Available: bio, experience, projects, skills, awards, questions, resume, clear";
       else if (cmd === 'bio') response = "A Gourav — Third-year CS Engineering student at APSCE working toward ML research (self-supervised learning, mechanistic interpretability, edge AI).";
-      else if (cmd === 'experience') response = "AI Engineering Intern at Infosys (June 2026 – Present) · Building an AI Academic Project Mentor platform on Next.js, FastAPI, Supabase.";
+      else if (cmd === 'experience') response = "AI Engineering Intern at Infosys, Bengaluru (June 2026 – Present) · Project: SupportPilot — Autonomous AI Support Desk & Multi-Agent Resolution System (Python, Flask, RAG, 5-Agent Swarm, Jira REST API).";
       else if (cmd === 'projects') response = "001.PhysioShift (Cross-Hardware Biosignals) | 002.LakeGuard AI (IoT Lake Sentinel) | 003.PhaseSAR-Net (Complex-Valued SAR ATR)";
       else if (cmd === 'resume') { downloadResume(); response = 'Downloading updated verified resume (GOURAV_RESUME.pdf)...'; }
       else if (cmd === 'skills') response = "Python, Java, C++, React.js, FastAPI, Next.js, Supabase, PyTorch, Edge AI, IoT, Docker, Git";
@@ -291,7 +291,7 @@ export default function App() {
                           <span className="about-stat-num">Infosys</span>
                           <Zap size={18} color="var(--cyan)" />
                         </div>
-                        <span className="about-stat-label"><strong>AI Engineering Intern</strong> (Next.js, FastAPI, Supabase, 5 Feedback Agent Engines)</span>
+                        <span className="about-stat-label"><strong>AI Engineering Intern</strong> (SupportPilot: Python, Flask, RAG &amp; 5-Agent Resolution Swarm)</span>
                       </div>
                       <div className="about-stat-item">
                         <div className="stat-top-row">
@@ -436,16 +436,22 @@ export default function App() {
 
           <div className="glass-panel">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.4rem' }}>
-              <h3 style={{ fontSize: '1.4rem', color: '#fff' }}>AI Engineering Intern — Infosys</h3>
+              <h3 style={{ fontSize: '1.4rem', color: '#fff' }}>AI Engineering Intern — Infosys <span style={{ fontSize: '0.95rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
               <span style={{ fontFamily: 'var(--mono)', fontSize: '0.85rem', color: 'var(--cyan)' }}>June 2026 – Present</span>
             </div>
-            <div style={{ fontFamily: 'var(--mono)', fontSize: '0.82rem', color: 'var(--amber)', marginBottom: '1rem' }}>AI Academic Project Mentor Platform · Next.js, FastAPI, Supabase</div>
-            <ul style={{ color: 'var(--ink-dim)', lineHeight: '1.7', fontSize: '0.98rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: '0.84rem', color: 'var(--amber)', marginBottom: '1.2rem', fontWeight: 600 }}>Project: SupportPilot — Autonomous AI Support Desk &amp; Multi-Agent Resolution System</div>
+            <ul style={{ color: 'var(--ink-dim)', lineHeight: '1.75', fontSize: '0.96rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               <li>
-                Building an AI Academic Project Mentor platform end to end on <b>Next.js, FastAPI, and Supabase</b> (PostgreSQL, authentication, row-level security), from data schema design through a shipped onboarding UI.
+                <strong style={{ color: '#fff' }}>Engineered End-to-End Triage Pipeline:</strong> Built an autonomous IT service desk using Python and Flask, implementing TF-IDF vectorization and multiclass Logistic Regression to classify incident tickets into 5 domains with 92%+ accuracy and assign dynamic P1–P4 priorities.
               </li>
               <li>
-                Completed Milestones 1–3 with the team: system and ER diagrams, authentication and project submission flows, a full presentation deck, a working set of <b>feedback agents</b> (Feasibility Analysis, Scope Definition, Tech Stack, Timeline, and Risk & Mitigation), and a <b>one-on-one chatbot</b>. One milestone remaining before the internship concludes.
+                <strong style={{ color: '#fff' }}>Designed RAG &amp; Multi-Agent Swarm:</strong> Developed a citation-grounded Retrieval-Augmented Generation (RAG) pipeline and a 5-agent collaborative swarm (Diagnosis, Retrieval, Resolution, Validation, Escalation) using cosine similarity over enterprise knowledge bases to synthesize step-by-step troubleshooting guides with verified source citations.
+              </li>
+              <li>
+                <strong style={{ color: '#fff' }}>Automated ITSM &amp; Escalation Workflows:</strong> Established a weighted confidence evaluation formula (≥70% threshold); automated immediate resolution delivery via SMTP email and integrated Atlassian Jira REST API for deterministic escalation of critical (P1) and low-confidence incidents.
+              </li>
+              <li>
+                <strong style={{ color: '#fff' }}>Analytics &amp; Performance Tracking:</strong> Built an interactive administrative dashboard with secure JWT authentication and real-time Chart.js telemetry tracking 9 operational KPIs including Mean Time to Resolution (MTTR), resolution rate, and CSAT.
               </li>
             </ul>
           </div>
@@ -535,9 +541,10 @@ export default function App() {
           <div style={{ display: 'grid', gap: '1.5rem' }}>
             <div className="glass-panel" style={{ borderLeft: '3px solid var(--cyan)' }}>
               <span style={{ fontFamily: 'var(--mono)', color: 'var(--cyan)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>JUNE 2026 — PRESENT</span>
-              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>AI Engineering Intern · Infosys</h3>
-              <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
-                Building an AI Academic Project Mentor platform end to end on Next.js, FastAPI, and Supabase (PostgreSQL, authentication, RLS). Shipped onboarding UI, feedback agents (Feasibility, Scope, Tech Stack, Timeline, Risk & Mitigation), and a one-on-one chatbot.
+              <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.3rem' }}>AI Engineering Intern · Infosys <span style={{ fontSize: '0.9rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.8rem', color: 'var(--amber)', marginBottom: '0.6rem' }}>Project: SupportPilot — Autonomous AI Support Desk &amp; Multi-Agent Resolution System</div>
+              <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.95rem' }}>
+                Engineered an autonomous IT service desk on Python and Flask with TF-IDF/Logistic Regression triage (92%+ accuracy, P1–P4 priorities), a 5-agent collaborative RAG swarm with verified citations, automated SMTP resolution, Jira REST API escalation (≥70% confidence threshold), and a JWT-secured real-time Chart.js telemetry dashboard tracking 9 operational KPIs.
               </p>
             </div>
 
