@@ -2,25 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ASSETS } from './assetsData';
 import { PROJECTS_DATA } from './projectsData';
 import ThreeBackground from './ThreeBackground';
-import { playSound } from './soundUtil';
 import { 
   User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText,
-  X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote, Volume2, VolumeX, ChevronDown, Compass
+  X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote
 } from 'lucide-react';
-
-const HERO_ROLES = [
-  "AI Engineering Intern @ Infosys",
-  "Machine Learning Researcher",
-  "Complex-Valued Deep Nets & SAR Intelligence",
-  "Autonomous Multi-Agent Systems"
-];
 
 export default function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [showTopPill, setShowTopPill] = useState(true);
   const [activeSection, setActiveSection] = useState('top');
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  const [heroRoleIndex, setHeroRoleIndex] = useState(0);
 
   // About 3D Kinetic Card State
   const [aboutTab, setAboutTab] = useState('brief');
@@ -44,14 +34,6 @@ export default function App() {
   const cliInputRef = useRef(null);
 
   const [selectedProject, setSelectedProject] = useState(null);
-
-  // Rotate Hero Roles every 2.8 seconds
-  useEffect(() => {
-    const roleTimer = setInterval(() => {
-      setHeroRoleIndex((prev) => (prev + 1) % HERO_ROLES.length);
-    }, 2800);
-    return () => clearInterval(roleTimer);
-  }, []);
 
   // Subtle auto-cycle for About tabs every 6.5s when not hovering
   useEffect(() => {
@@ -179,8 +161,6 @@ export default function App() {
   const executeCliCommand = (cmdText) => {
     const cmd = cmdText.trim().toLowerCase();
     if (!cmd) return;
-    playSound('terminal', soundEnabled);
-
     let response = "";
     if (cmd === 'help') {
       response = "COMMANDS: bio | experience | projects | skills | awards | matrix | resume | contact | clear";
@@ -225,171 +205,53 @@ export default function App() {
 
       {/* FLOATING SIDE NAV DOCK */}
       <nav className={`side-nav-dock ${!showSideNav ? 'hidden' : ''}`}>
-        <a href="#about" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'about' ? 'active' : ''}`}>
+        <a href="#about" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'about' ? 'active' : ''}`}>
           <User size={16} /> <span>About</span>
         </a>
-        <a href="#skills" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'skills' ? 'active' : ''}`}>
+        <a href="#skills" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'skills' ? 'active' : ''}`}>
           <Cpu size={16} /> <span>Skills</span>
         </a>
-        <a href="#experience" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'experience' ? 'active' : ''}`}>
+        <a href="#experience" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'experience' ? 'active' : ''}`}>
           <Briefcase size={16} /> <span>Experience</span>
         </a>
-        <a href="#work" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'work' ? 'active' : ''}`}>
+        <a href="#work" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'work' ? 'active' : ''}`}>
           <FolderGit2 size={16} /> <span>Work</span>
         </a>
-        <a href="#questions" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'questions' ? 'active' : ''}`}>
+        <a href="#questions" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'questions' ? 'active' : ''}`}>
           <HelpCircle size={16} /> <span>Research</span>
         </a>
-        <a href="#log" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'log' ? 'active' : ''}`}>
+        <a href="#log" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'log' ? 'active' : ''}`}>
           <BookOpen size={16} /> <span>System Log</span>
         </a>
-        <a href="#certifications" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'certifications' ? 'active' : ''}`}>
+        <a href="#certifications" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'certifications' ? 'active' : ''}`}>
           <Award size={16} /> <span>Certs</span>
         </a>
-        <a href="#contact" onClick={() => { playSound('tab', soundEnabled); setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'contact' ? 'active' : ''}`}>
+        <a href="#contact" onClick={() => { setShowSideNav(false); }} className={`side-tab-btn ${activeSection === 'contact' ? 'active' : ''}`}>
           <Mail size={16} /> <span>Contact</span>
         </a>
       </nav>
 
       {/* TOP FLOATING CYBER HUD PILL BAR */}
+      {/* TOP FLOATING HEADER PILL BAR (ONLY SHOWN ON FIRST PAGE HERO, DISAPPEARS ON SCROLL DOWN MATCHING REQUEST) */}
       <header className={`top-pill-bar ${!showTopPill ? 'hidden-header' : ''}`}>
         <div className="top-pill-left">
           <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="top-pill-avatar" />
           <span className="top-pill-name">A Gourav.</span>
         </div>
-        <div className="top-pill-right">
-          <button 
-            className={`top-pill-icon-btn ${soundEnabled ? 'active' : ''}`}
-            onClick={() => {
-              const next = !soundEnabled;
-              setSoundEnabled(next);
-              if (next) playSound('click', true);
-            }}
-            title={soundEnabled ? 'Mute Cyber Audio FX' : 'Enable Cyber Audio FX'}
-          >
-            {soundEnabled ? <Volume2 size={15} color="var(--cyan)" /> : <VolumeX size={15} color="var(--ink-dim)" />}
-            <span className="top-pill-btn-label">FX</span>
-          </button>
-          <button 
-            className="top-pill-icon-btn" 
-            onClick={() => { playSound('open', soundEnabled); setCliOpen(true); }}
-            title="Open Interactive Cyber Terminal"
-          >
-            <Terminal size={15} color="var(--cyan)" />
-            <span className="top-pill-btn-label">CLI</span>
-          </button>
-          <button 
-            className="top-pill-menu" 
-            onClick={() => { playSound('click', soundEnabled); setShowSideNav(!showSideNav); }}
-          >
-            Menu ☰
-          </button>
-        </div>
+        <button className="top-pill-menu" onClick={() => setShowSideNav(!showSideNav)}>
+          Menu ☰
+        </button>
       </header>
 
       {/* MAIN PORTFOLIO WRAPPER */}
       <div className="wrap">
-        {/* 01 HIGH-IMPACT ATTENTION-SEEKING FRONT PAGE HERO */}
+        {/* FRONT PAGE HERO */}
         <section id="top" className="hero-front-page">
-          {/* LIVE STATUS RADAR BEACON */}
-          <div className="hero-status-beacon" onMouseEnter={() => playSound('hover', soundEnabled)}>
-            <span className="beacon-radar-pulse" />
-            <span className="beacon-radar-dot" />
-            <span className="beacon-label">AVAILABLE FOR ML RESEARCH &amp; AI SYSTEMS ROLES</span>
-            <span className="beacon-sep">·</span>
-            <span className="beacon-city">BENGALURU, IN</span>
-          </div>
-
-          {/* GIANT HOLOGRAPHIC SHIMMER NAME */}
-          <h1 className="hero-name-animated" onMouseEnter={() => playSound('hover', soundEnabled)}>
-            A Gourav
-          </h1>
-
-          {/* KINETIC ROTATING HEADLINE */}
-          <div className="hero-role-carousel">
-            <Sparkles size={16} className="hero-sparkle-icon" />
-            <span className="hero-role-text" key={heroRoleIndex}>
-              {HERO_ROLES[heroRoleIndex]}
-            </span>
-          </div>
-
-          {/* ATTENTION-SEEKING MANIFESTO */}
-          <p className="hero-manifesto-sub">
-            Architecting self-supervised representations, complex-valued SAR intelligence &amp; autonomous multi-agent systems that survive real-world distribution shifts.
-          </p>
-
-          {/* HERO HUD QUICK-STATS CAPSULE RIBBON */}
-          <div className="hero-hud-ribbon">
-            <a href="#experience" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
-              <div className="hud-pill-icon"><Zap size={16} color="var(--cyan)" /></div>
-              <div className="hud-pill-content">
-                <span className="hud-pill-title">Infosys AI Intern</span>
-                <span className="hud-pill-sub">SupportPilot Swarm (Python/Flask)</span>
-              </div>
-            </a>
-
-            <a href="#log" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
-              <div className="hud-pill-icon"><Award size={16} color="var(--amber)" /></div>
-              <div className="hud-pill-content">
-                <span className="hud-pill-title">4th / 147 Teams</span>
-                <span className="hud-pill-sub">KSRSAC State Innovation Award</span>
-              </div>
-            </a>
-
-            <a href="#skills" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
-              <div className="hud-pill-icon"><Code2 size={16} color="var(--blue)" /></div>
-              <div className="hud-pill-content">
-                <span className="hud-pill-title">250+ LeetCode DSA</span>
-                <span className="hud-pill-sub">Sustained Daily Consistency</span>
-              </div>
-            </a>
-
-            <a href="#work" className="hero-hud-pill" onClick={() => playSound('tab', soundEnabled)}>
-              <div className="hud-pill-icon"><Brain size={16} color="var(--emerald)" /></div>
-              <div className="hud-pill-content">
-                <span className="hud-pill-title">3 Shipped ML Builds</span>
-                <span className="hud-pill-sub">PhysioShift · PhaseSAR · IoT</span>
-              </div>
-            </a>
-          </div>
-
-          {/* INTERACTIVE ACTION CLUSTER */}
-          <div className="hero-action-cluster">
-            <a 
-              href="#work" 
-              className="hero-btn-primary" 
-              onClick={() => playSound('click', soundEnabled)}
-            >
-              <Compass size={17} />
-              <span>Explore Projects</span>
-              <ChevronDown size={16} className="btn-bounce-icon" />
-            </a>
-
-            <button 
-              onClick={() => { playSound('action', soundEnabled); downloadResume(); }} 
-              className="hero-btn-secondary"
-            >
-              <Download size={16} />
-              <span>Download Resume</span>
-              <ExternalLink size={14} />
-            </button>
-
-            <button 
-              onClick={() => { playSound('open', soundEnabled); setCliOpen(true); }} 
-              className="hero-btn-terminal"
-              title="Launch Terminal Console"
-            >
-              <Terminal size={16} />
-              <span>Launch CLI ⚡</span>
-            </button>
-          </div>
-
-          {/* SCROLL CUE */}
-          <div className="hero-scroll-cue">
-            <div className="scroll-mouse-pill">
-              <span className="scroll-wheel-dot" />
-            </div>
-            <span className="scroll-cue-text">SCROLL TO DISCOVER</span>
+          <h1 className="hero-name-animated">A Gourav</h1>
+          <div className="hero-sublinks">
+            <a href="#contact" className="hero-sublink-item">Contact Me</a>
+            <span className="hero-sublink-sep">|</span>
+            <button onClick={downloadResume} className="hero-sublink-item btn-link">View Resume ↗</button>
           </div>
         </section>
 
@@ -405,7 +267,7 @@ export default function App() {
             <div 
               className="about-interactive-card"
               onMouseMove={handleAboutMouseMove}
-              onMouseEnter={() => { playSound('hover', soundEnabled); setIsAboutHovered(true); }}
+              onMouseEnter={() => { setIsAboutHovered(true); }}
               onMouseLeave={handleAboutMouseLeave}
               style={{
                 transform: `perspective(1000px) rotateX(${aboutTilt.y * -8}deg) rotateY(${aboutTilt.x * 10}deg)`,
@@ -540,28 +402,28 @@ export default function App() {
               <div className="about-card-nav-row">
                 <button
                   className={`about-nav-btn ${aboutTab === 'brief' ? 'active' : ''}`}
-                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('brief'); }}
+                  onClick={() => { setAboutTab('brief'); }}
                 >
                   <span className="nav-btn-idx">01</span>
                   <span>BRIEF</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'edu' ? 'active' : ''}`}
-                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('edu'); }}
+                  onClick={() => { setAboutTab('edu'); }}
                 >
                   <span className="nav-btn-idx">02</span>
                   <span>EDU</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'stats' ? 'active' : ''}`}
-                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('stats'); }}
+                  onClick={() => { setAboutTab('stats'); }}
                 >
                   <span className="nav-btn-idx">03</span>
                   <span>STATS</span>
                 </button>
                 <button
                   className={`about-nav-btn ${aboutTab === 'quote' ? 'active' : ''}`}
-                  onClick={() => { playSound('tab', soundEnabled); setAboutTab('quote'); }}
+                  onClick={() => { setAboutTab('quote'); }}
                 >
                   <span className="nav-btn-idx">04</span>
                   <span>QUOTE</span>
@@ -678,9 +540,9 @@ export default function App() {
                 <div 
                   key={project.id} 
                   className={`work-card-large ${project.id === 'phasesar' ? 'work-card-full' : ''}`}
-                  onClick={() => { playSound('open', soundEnabled); setSelectedProject(project); }}
+                  onClick={() => { setSelectedProject(project); }}
                   onMouseMove={(e) => handleWorkMouseMove(e, project.id)}
-                  onMouseEnter={() => playSound('hover', soundEnabled)}
+                  
                   onMouseLeave={() => handleWorkMouseLeave(project.id)}
                   role="button"
                   tabIndex={0}
@@ -737,22 +599,22 @@ export default function App() {
           </div>
 
           <div className="research-questions-grid">
-            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            <div className="rq-card" >
               <div className="rq-tag">RQ-001 · PhysioShift</div>
               <p className="rq-quote">"Can a physiological model learn the signal without learning the device?"</p>
             </div>
 
-            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            <div className="rq-card" >
               <div className="rq-tag">RQ-002 · Phase</div>
               <p className="rq-quote">"Can a SAR model preserve phase information—and still recognize a scene when the signal is corrupted?"</p>
             </div>
 
-            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            <div className="rq-card" >
               <div className="rq-tag">RQ-003 · Magnitude</div>
               <p className="rq-quote">"What does a model lose when it sees only SAR magnitude, but not phase?"</p>
             </div>
 
-            <div className="rq-card" onMouseEnter={() => playSound('hover', soundEnabled)}>
+            <div className="rq-card" >
               <div className="rq-tag">RQ-004 · Physics</div>
               <p className="rq-quote">"Can physics-aware constraints make SAR predictions more reliable than accuracy alone?"</p>
             </div>
@@ -834,7 +696,7 @@ export default function App() {
               <h3 style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '0.4rem' }}>Download Verified Resume</h3>
               <p style={{ color: 'var(--ink-dim)', maxWidth: '550px' }}>A one-page snapshot of my education, projects, and skills — updated as new things ship.</p>
             </div>
-            <button onClick={() => { playSound('action', soundEnabled); downloadResume(); }} style={{
+            <button onClick={() => { downloadResume(); }} style={{
               background: 'linear-gradient(135deg, var(--cyan), #0088ff)',
               color: '#000',
               fontFamily: 'var(--mono)',
