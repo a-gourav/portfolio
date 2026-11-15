@@ -185,20 +185,20 @@ export default function App() {
     if (cmd === 'help') {
       response = "COMMANDS: bio | experience | projects | skills | awards | matrix | resume | contact | clear";
     } else if (cmd === 'bio') {
-      response = "A Gourav — Third-year CS Engineering student at APS College of Engineering, Bengaluru. Machine learning researcher focusing on self-supervised representation learning, complex-valued neural networks, and robust autonomous systems.";
+      response = "A Gourav — Third-year Computer Science Engineering student at APS College of Engineering, Bengaluru (2024-2028). Aiming for a career in machine learning research. Hands-on experience in self-supervised representation learning, robustness evaluation of deep models, and applied full-stack AI systems. Builds ML systems end to end, with a record of shipped, award-winning projects.";
     } else if (cmd === 'experience') {
-      response = "AI Engineering Intern @ Infosys, Bengaluru (June 2026 – Present)\nProject: SupportPilot — Autonomous AI Support Desk & Multi-Agent Resolution System.\n• 92%+ triage accuracy via TF-IDF & Logistic Regression (P1-P4 priorities)\n• 5-Agent RAG Swarm with citation-grounded enterprise retrieval\n• Jira REST API deterministic escalation (≥70% confidence threshold)\n• JWT-secured Chart.js telemetry tracking 9 operational KPIs (MTTR, CSAT).";
+      response = "AI Engineering Intern | Infosys (June 2026 – Present)\n• SupportPilot Platform Development: Architected an autonomous AI support desk in Python/Flask to automate enterprise Tier-1 incident triage, classification, and knowledge-grounded resolution.\n• Multi-Agent RAG Architecture: Integrated semantic search with a collaborative 5-agent swarm (Diagnosis, Retrieval, Resolution, Validation, Escalation) to evaluate ticket certainty and generate cited, hallucination-free solutions.\n• Production ITSM Integrations: Implemented automated resolution dispatch via SMTP and integrated the Atlassian Jira REST API to deterministically escalate low-confidence (<70%) or P1 tickets.";
     } else if (cmd === 'projects') {
-      response = "001. PhysioShift — Cross-Hardware Robust Biosignals Representation Learning (PyTorch)\n002. LakeGuard AI — Autonomous IoT Swarm & Anomaly Detection (4th/147 KSRSAC Award)\n003. PhaseSAR-Net — Complex-Valued SAR Intelligence (ComplexConv2d, MSTAR Benchmark)";
+      response = "001. PhysioShift — Cross-Hardware Robust Learning for Physiological Signals (Team Project | In Progress)\n002. PhaseSAR-Net — Phase-Aware SAR Intelligence for Robust Scene Classification (Solo Research | In Progress)\n003. LakeGuard AI + AquaDrone Sentinel — Autonomous IoT Swarm & Anomaly Detection (4th/147 KSRSAC Award)";
     } else if (cmd === 'skills') {
-      response = "Languages: Python, Java, C++, TypeScript, SQL\nML / Systems: PyTorch, Complex CNNs, RAG, Multi-Agent Swarms, FastAPI, Next.js, Docker, IoT (ESP32)";
+      response = "Languages: Python, Java, C, C++, JavaScript, HTML\nML/AI: PyTorch, Self-Supervised Learning, Complex CNNs, Mechanistic Interpretability, Robustness Evaluation, Multi-Agent Swarms, RAG, LLMs, Edge AI, IoT\nWeb/Backend: React.js, Next.js, FastAPI, Supabase (PostgreSQL)\nCore CS: 250+ LeetCode DSA, OOP, DBMS, OS, Computer Networks\nTools: Git, GitHub, VS Code, JIRA, Figma";
     } else if (cmd === 'awards') {
-      response = "🏆 4th of 147 Teams, KSRSAC State Student Innovation Exhibition (Govt. of Karnataka, ₹15,000 Award)\n💻 250+ LeetCode DSA Solved (Continuous Practice Streak)\n🔥 300+ Day Duolingo Streak";
+      response = "🏆 4th place of 147 teams, KSRSAC State-Level Student Innovation Exhibition (Govt. of Karnataka), for LakeGuard AI; prize of Rs. 15,000.\n💻 250+ LeetCode problems solved with a consistent daily-practice habit across DSA topics.\n🚀 Active participant in multiple college hackathons across Bengaluru.";
     } else if (cmd === 'resume') {
       downloadResume();
       response = "Downloading verified resume (GOURAV_RESUME.pdf)...";
     } else if (cmd === 'contact') {
-      response = "Email: amdggourav@gmail.com | LinkedIn: /in/gourav-a-450148360 | GitHub: github.com/a-gourav";
+      response = "Email: amdggourav@mail.com | Phone: +91 93802 12915 | LinkedIn: /in/gourav-a-450148360 | GitHub: github.com/arisu2006";
     } else if (cmd === 'matrix') {
       response = "[MATRIX STREAM] Complex spectrum synchronized. PhaseSAR-Net weights calibrated. Zero-shot transfer operational.";
     } else if (cmd === 'clear') {
@@ -443,15 +443,15 @@ export default function App() {
                 {aboutTab === 'brief' && (
                   <div className="about-tab-pane about-pane-brief">
                     <p className="about-lead-statement">
-                      <span className="about-lead-highlight">"I build machine learning architectures and high-throughput systems</span> that survive real-world distribution shifts."
+                      <span className="about-lead-highlight">"Third-year Computer Science Engineering student</span> aiming for a career in machine learning research."
                     </p>
                     <p className="about-body-narrative">
-                      Third-year Computer Science Engineering student at APSCE Bengaluru, targeting machine learning research in <strong>self-supervised representation learning</strong>, <strong>complex-valued neural networks</strong>, and <strong>mechanistic interpretability</strong>. Comfortable taking systems end to end — from mathematical loss design through deployed, hardware-hardened interfaces.
+                      Hands-on experience in <strong>self-supervised representation learning</strong>, <strong>robustness evaluation of deep models</strong>, and <strong>applied full-stack AI systems</strong>. Builds ML systems end to end, from model architecture to a deployed interface, with a record of shipped, award-winning projects.
                     </p>
                     <div className="about-tech-stack-row">
                       <span className="about-tech-pill"><Sparkles size={13} color="var(--cyan)" /> PyTorch SSL</span>
                       <span className="about-tech-pill"><Brain size={13} color="var(--blue)" /> ComplexConv2d</span>
-                      <span className="about-tech-pill"><Activity size={13} color="var(--emerald)" /> VitalDrift</span>
+                      <span className="about-tech-pill"><Activity size={13} color="var(--emerald)" /> Multi-Agent RAG</span>
                       <span className="about-tech-pill"><Cpu size={13} color="var(--cyan)" /> FastAPI &amp; Next.js</span>
                     </div>
                   </div>
@@ -465,16 +465,16 @@ export default function App() {
                         <span>B.E. COMPUTER SCIENCE &amp; ENGINEERING</span>
                       </div>
                       <h3 className="about-edu-title">APS College of Engineering</h3>
-                      <p className="about-edu-subtitle">Bengaluru, Karnataka · Batch 2024 – 2028</p>
+                      <p className="about-edu-subtitle">Bengaluru, Karnataka · 2024 – 2028 (Expected)</p>
                     </div>
 
                     <div className="about-edu-coursework-section">
-                      <div className="about-coursework-title">CORE CURRICULUM &amp; PROFICIENCIES:</div>
+                      <div className="about-coursework-title">RELEVANT COURSEWORK:</div>
                       <div className="about-coursework-chips">
                         <span className="course-chip">Data Structures &amp; Algorithms (250+ solved)</span>
-                        <span className="course-chip">Machine Learning &amp; Deep Neural Nets</span>
-                        <span className="course-chip">Object-Oriented Design &amp; Architecture</span>
-                        <span className="course-chip">Database Management Systems &amp; SQL</span>
+                        <span className="course-chip">Machine Learning &amp; Deep Learning</span>
+                        <span className="course-chip">Object-Oriented Programming (OOP)</span>
+                        <span className="course-chip">Database Management Systems (DBMS)</span>
                         <span className="course-chip">Operating Systems &amp; Computer Networks</span>
                       </div>
                     </div>
@@ -503,14 +503,14 @@ export default function App() {
                           <span className="about-stat-num">250+</span>
                           <Code2 size={18} color="var(--blue)" />
                         </div>
-                        <span className="about-stat-label"><strong>LeetCode DSA Solved</strong> (Sustained daily-practice streak across algorithms)</span>
+                        <span className="about-stat-label"><strong>LeetCode DSA Solved</strong> (Consistent daily-practice habit across topics)</span>
                       </div>
                       <div className="about-stat-item">
                         <div className="stat-top-row">
-                          <span className="about-stat-num">300+</span>
+                          <span className="about-stat-num">Hackathons</span>
                           <Flame size={18} color="var(--emerald)" />
                         </div>
-                        <span className="about-stat-label"><strong>Day Duolingo Streak</strong> (Active language consistency &amp; focus)</span>
+                        <span className="about-stat-label"><strong>Bengaluru Hackathons</strong> (Active participant across competitive collegiate builds)</span>
                       </div>
                     </div>
                   </div>
@@ -522,10 +522,15 @@ export default function App() {
                     <blockquote className="about-philosophical-quote">
                       "A model that only works on pristine lab datasets isn't intelligent — it's fragile. The real engineering begins when the data gets corrupted."
                     </blockquote>
-                    <div className="about-quote-meta">
-                      <span className="about-quote-author-dot" />
-                      <span className="about-quote-author-name">A GOURAV</span>
-                      <span className="about-quote-author-role">· Machine Learning Research &amp; Systems</span>
+                    <div className="about-quote-meta" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span className="about-quote-author-dot" />
+                        <span className="about-quote-author-name">A GOURAV</span>
+                        <span className="about-quote-author-role">· ML Research &amp; AI Systems</span>
+                      </div>
+                      <div style={{ fontFamily: 'var(--mono)', fontSize: '0.74rem', color: 'var(--ink-dim)' }}>
+                        <strong style={{ color: 'var(--cyan)' }}>LANGUAGES:</strong> English, Kannada, Hindi, Japanese &nbsp;|&nbsp; <strong style={{ color: 'var(--emerald)' }}>INTERESTS:</strong> AI side projects, hackathons, travel, comics
+                      </div>
                     </div>
                   </div>
                 )}
@@ -641,22 +646,19 @@ export default function App() {
 
           <div className="glass-panel">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.4rem' }}>
-              <h3 style={{ fontSize: '1.4rem', color: '#fff' }}>AI Engineering Intern — Infosys <span style={{ fontSize: '0.95rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
+              <h3 style={{ fontSize: '1.4rem', color: '#fff' }}>AI Engineering Intern | Infosys <span style={{ fontSize: '0.95rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
               <span style={{ fontFamily: 'var(--mono)', fontSize: '0.85rem', color: 'var(--cyan)' }}>June 2026 – Present</span>
             </div>
             <div style={{ fontFamily: 'var(--mono)', fontSize: '0.84rem', color: 'var(--amber)', marginBottom: '1.2rem', fontWeight: 600 }}>Project: SupportPilot — Autonomous AI Support Desk &amp; Multi-Agent Resolution System</div>
             <ul style={{ color: 'var(--ink-dim)', lineHeight: '1.75', fontSize: '0.96rem', paddingLeft: '1.2rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               <li>
-                <strong style={{ color: '#fff' }}>Engineered End-to-End Triage Pipeline:</strong> Built an autonomous IT service desk using Python and Flask, implementing TF-IDF vectorization and multiclass Logistic Regression to classify incident tickets into 5 domains with 92%+ accuracy and assign dynamic P1–P4 priorities.
+                <strong style={{ color: '#fff' }}>SupportPilot Platform Development:</strong> Architected an autonomous AI support desk in Python/Flask to automate enterprise Tier-1 incident triage, classification, and knowledge-grounded resolution.
               </li>
               <li>
-                <strong style={{ color: '#fff' }}>Designed RAG &amp; Multi-Agent Swarm:</strong> Developed a citation-grounded Retrieval-Augmented Generation (RAG) pipeline and a 5-agent collaborative swarm (Diagnosis, Retrieval, Resolution, Validation, Escalation) using cosine similarity over enterprise knowledge bases to synthesize step-by-step troubleshooting guides with verified source citations.
+                <strong style={{ color: '#fff' }}>Multi-Agent RAG Architecture:</strong> Integrated semantic search with a collaborative 5-agent swarm (Diagnosis, Retrieval, Resolution, Validation, Escalation) to evaluate ticket certainty and generate cited, hallucination-free solutions.
               </li>
               <li>
-                <strong style={{ color: '#fff' }}>Automated ITSM &amp; Escalation Workflows:</strong> Established a weighted confidence evaluation formula (≥70% threshold); automated immediate resolution delivery via SMTP email and integrated Atlassian Jira REST API for deterministic escalation of critical (P1) and low-confidence incidents.
-              </li>
-              <li>
-                <strong style={{ color: '#fff' }}>Analytics &amp; Performance Tracking:</strong> Built an interactive administrative dashboard with secure JWT authentication and real-time Chart.js telemetry tracking 9 operational KPIs including Mean Time to Resolution (MTTR), resolution rate, and CSAT.
+                <strong style={{ color: '#fff' }}>Production ITSM Integrations:</strong> Implemented automated resolution dispatch via SMTP and integrated the Atlassian Jira REST API to deterministically escalate low-confidence (&lt;70%) or P1 tickets.
               </li>
             </ul>
           </div>
@@ -770,7 +772,7 @@ export default function App() {
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.3rem' }}>AI Engineering Intern · Infosys <span style={{ fontSize: '0.9rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
               <div style={{ fontFamily: 'var(--mono)', fontSize: '0.8rem', color: 'var(--amber)', marginBottom: '0.6rem' }}>Project: SupportPilot — Autonomous AI Support Desk &amp; Multi-Agent Resolution System</div>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.95rem' }}>
-                Engineered an autonomous IT service desk on Python and Flask with TF-IDF/Logistic Regression triage (92%+ accuracy, P1–P4 priorities), a 5-agent collaborative RAG swarm with verified citations, automated SMTP resolution, Jira REST API escalation (≥70% confidence threshold), and a JWT-secured real-time Chart.js telemetry dashboard tracking 9 operational KPIs.
+                Architected an autonomous AI support desk in Python/Flask to automate enterprise Tier-1 incident triage, classification, and knowledge-grounded resolution. Integrated semantic search with a collaborative 5-agent swarm (Diagnosis, Retrieval, Resolution, Validation, Escalation) for verified, cited solutions; implemented automated SMTP resolution dispatch and Atlassian Jira REST API deterministic escalation (&lt;70% confidence or P1 tickets).
               </p>
             </div>
 
@@ -778,7 +780,7 @@ export default function App() {
               <span style={{ fontFamily: 'var(--mono)', color: 'var(--amber)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>APRIL 2026</span>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>4th Place of 147 Teams · KSRSAC State Award (Govt. of Karnataka, ₹15,000 Prize)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
-                Presented LakeGuard AI + AquaDrone Sentinel water-quality monitoring IoT swarm at the Karnataka State Remote Sensing Applications Centre Student Innovation Exhibition, winning 4th place out of 147 state teams.
+                Presented LakeGuard AI + AquaDrone Sentinel water-quality anomaly detection IoT swarm at the Karnataka State Remote Sensing Applications Centre Student Innovation Exhibition, winning 4th place out of 147 state teams.
               </p>
             </div>
 
@@ -864,16 +866,17 @@ export default function App() {
               </div>
 
               <div className="footer-col">
-                <span className="footer-col-title">SOCIAL</span>
-                <a href="https://github.com/a-gourav" target="_blank" rel="noreferrer" className="footer-nav-link">GITHUB</a>
+                <span className="footer-col-title">SOCIAL &amp; CONTACT</span>
+                <a href="https://github.com/arisu2006" target="_blank" rel="noreferrer" className="footer-nav-link">GITHUB (arisu2006)</a>
                 <a href="https://linkedin.com/in/gourav-a-450148360" target="_blank" rel="noreferrer" className="footer-nav-link">LINKEDIN</a>
-                <a href="mailto:amdggourav@gmail.com" className="footer-nav-link">EMAIL</a>
+                <a href="mailto:amdggourav@mail.com" className="footer-nav-link">amdggourav@mail.com</a>
+                <span className="footer-nav-link" style={{ cursor: 'default', color: 'var(--ink-dim)' }}>TEL: +91 93802 12915</span>
               </div>
 
               <div className="footer-col">
                 <span className="footer-col-title">LET'S CONNECT ✦</span>
                 <p className="footer-connect-desc">Always open to discussing machine learning research, internships, and high-impact systems engineering.</p>
-                <a href="mailto:amdggourav@gmail.com" className="footer-say-hello-btn" onClick={() => playSound('click', soundEnabled)}>SAY HELLO</a>
+                <a href="mailto:amdggourav@mail.com" className="footer-say-hello-btn" onClick={() => playSound('click', soundEnabled)}>SAY HELLO</a>
               </div>
             </div>
 
