@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ASSETS } from './assetsData';
 import { PROJECTS_DATA } from './projectsData';
 import ThreeBackground from './ThreeBackground';
-import ProjectWorkflow from './ProjectWorkflow';
 import { 
   User, Cpu, Briefcase, FolderGit2, HelpCircle, BookOpen, Award, Activity, Mail, Terminal, Download, Brain, Layers, Radio, FileText,
   X, ExternalLink, CheckCircle2, Sparkles, Maximize2, GraduationCap, Zap, Flame, Code2, Quote
@@ -118,7 +117,7 @@ export default function App() {
   // Active section scroll tracker
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'skills', 'experience', 'workflow', 'work', 'questions', 'log', 'certifications', 'contact'];
+      const sections = ['about', 'skills', 'experience', 'work', 'questions', 'log', 'certifications', 'contact'];
       let current = 'top';
       sections.forEach((id) => {
         const el = document.getElementById(id);
@@ -462,19 +461,10 @@ export default function App() {
           </div>
         </section>
 
-        {/* 05 WORKFLOW (INTERACTIVE SYSTEM ARCHITECTURE & PIPELINES) */}
-        <section id="workflow" className="workflow-section">
-          <div className="section-title-wrap">
-            <span className="section-big-num">05</span>
-            <h2 className="section-heading">WORKFLOW</h2>
-          </div>
-          <ProjectWorkflow />
-        </section>
-
-        {/* 06 WORK (WITH INTERACTIVE 3D PARALLAX CARDS) */}
+        {/* 05 WORK (WITH INTERACTIVE 3D PARALLAX CARDS) */}
         <section id="work">
           <div className="section-title-wrap">
-            <span className="section-big-num">06</span>
+            <span className="section-big-num">05</span>
             <h2 className="section-heading" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 700 }}>Work</h2>
           </div>
 
@@ -539,7 +529,7 @@ export default function App() {
         {/* 06 RESEARCH QUESTIONS */}
         <section id="questions">
           <div className="section-title-wrap">
-            <span className="section-big-num">07</span>
+            <span className="section-big-num">06</span>
             <h2 className="section-heading">Research Questions</h2>
           </div>
 
@@ -604,7 +594,7 @@ export default function App() {
         {/* 08 CERTIFICATIONS */}
         <section id="certifications">
           <div className="section-title-wrap">
-            <span className="section-big-num">09</span>
+            <span className="section-big-num">08</span>
             <h2 className="section-heading">Certifications</h2>
           </div>
 
@@ -669,7 +659,6 @@ export default function App() {
                 <a href="#skills" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>SKILLS</a>
                 <a href="#work" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>PROJECTS</a>
                 <a href="#experience" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>EXPERIENCE</a>
-            <a href="#workflow" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>WORKFLOW</a>
                 <a href="#contact" className="footer-nav-link" onClick={() => playSound('tab', soundEnabled)}>CONTACT</a>
               </div>
 
