@@ -282,12 +282,23 @@ export default function App() {
                 {aboutTab === 'stats' && (
                   <div className="about-tab-pane about-pane-stats">
                     <div className="about-stats-grid">
-                      <div className="about-stat-item stat-item-highlight">
+                      <div 
+                        className="about-stat-item stat-item-highlight cert-clickable-card"
+                        onClick={() => setSelectedCert('ksrsac-award')}
+                        title="Click to view real KSRSAC State Award Trophy and Certificate"
+                        role="button"
+                        tabIndex={0}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <div className="stat-top-row">
                           <span className="about-stat-num">4th / 147</span>
                           <Award size={18} color="var(--amber)" />
                         </div>
                         <span className="about-stat-label"><strong>KSRSAC State Award</strong> (Govt. of Karnataka, ₹15,000 Prize for LakeGuard AI)</span>
+                        <div className="cert-card-cta" style={{ marginTop: '0.4rem', fontSize: '0.74rem', color: 'var(--amber)' }}>
+                          <Maximize2 size={12} />
+                          <span>View Real Award &amp; Trophy ↗</span>
+                        </div>
                       </div>
                       <div className="about-stat-item">
                         <div className="stat-top-row">
@@ -574,8 +585,16 @@ export default function App() {
               </p>
             </div>
 
-            <div className="glass-panel" style={{ borderLeft: '3px solid var(--amber)' }}>
-              <span style={{ fontFamily: 'var(--mono)', color: 'var(--amber)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>APRIL 2026</span>
+            <div 
+              className="glass-panel cert-clickable-card" 
+              style={{ borderLeft: '3px solid var(--amber)', cursor: 'pointer' }}
+              onClick={() => setSelectedCert('ksrsac-award')}
+              title="Click to view real KSRSAC State Award Trophy & Certificate"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                <span style={{ fontFamily: 'var(--mono)', color: 'var(--amber)', fontSize: '0.8rem' }}>APRIL 2026</span>
+                <span className="cert-verified-pill" style={{ color: 'var(--amber)', borderColor: 'rgba(251, 191, 36, 0.4)', background: 'rgba(251, 191, 36, 0.1)' }}>VIEW REAL AWARD &amp; TROPHY ↗</span>
+              </div>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>4th Place of 147 Teams · KSRSAC State Award (Govt. of Karnataka, ₹15,000 Prize)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
                 Presented LakeGuard AI + AquaDrone Sentinel water-quality anomaly detection IoT swarm at the Karnataka State Remote Sensing Applications Centre Student Innovation Exhibition, winning 4th place out of 147 state teams.
@@ -608,6 +627,26 @@ export default function App() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+            <div 
+              className="glass-panel cert-clickable-card"
+              onClick={() => setSelectedCert('ksrsac-award')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedCert('ksrsac-award'); } }}
+              title="Click to view real KSRSAC State Award Trophy and Certificate"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--amber)' }}>KSRSAC · GOVT. OF KARNATAKA</div>
+                <span className="cert-verified-pill" style={{ color: 'var(--amber)', borderColor: 'rgba(251, 191, 36, 0.4)', background: 'rgba(251, 191, 36, 0.1)' }}>STATE AWARD ↗</span>
+              </div>
+              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.5rem 0 0.3rem 0' }}>K-GIS 2.0 State-Level Innovation Award</h3>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Consolation Prize (4th/147 Statewide) · ₹15,000 Cash Prize</p>
+              <div className="cert-card-cta" style={{ color: 'var(--amber)' }}>
+                <Maximize2 size={13} />
+                <span>View Real Trophy &amp; Certificate ↗</span>
+              </div>
+            </div>
+
             <div className="glass-panel">
               <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--cyan)' }}>ORACLE · ISSUED JAN 2026</div>
               <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>Oracle AI Foundations Associate</h3>
@@ -896,6 +935,101 @@ export default function App() {
           </div>
         </div>
       )}
+      {/* REAL KSRSAC STATE AWARD & TROPHY VIEWER MODAL */}
+      {selectedCert === 'ksrsac-award' && (
+        <div 
+          className="cert-modal-backdrop"
+          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="ksrsac-modal-title"
+        >
+          <div 
+            className="cert-modal-container"
+            onClick={(e) => e.stopPropagation()}
+            style={{ borderColor: 'rgba(251, 191, 36, 0.45)', boxShadow: '0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(251, 191, 36, 0.18)' }}
+          >
+            {/* MODAL HEADER */}
+            <div className="cert-modal-header">
+              <div className="cert-modal-header-left">
+                <div className="cert-modal-kicker" style={{ color: 'var(--amber)' }}>
+                  <span className="cert-live-dot" style={{ background: 'var(--amber)', boxShadow: '0 0 10px var(--amber)' }} />
+                  <span>GOVERNMENT OF KARNATAKA · KSRSAC STATE-LEVEL EXHIBITION</span>
+                </div>
+                <h3 id="ksrsac-modal-title" className="cert-modal-title">
+                  Certificate of Excellence &amp; State Innovation Trophy
+                </h3>
+                <p className="cert-modal-subtitle">
+                  Awarded to <strong style={{ color: '#fff' }}>A GOURAV</strong> · Consolation Prize (4th / 147 Teams Statewide) · ₹15,000 Cash Award
+                </p>
+              </div>
+
+              <button 
+                className="cert-modal-close-icon-btn"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close certificate"
+                title="Close (Esc)"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* CERTIFICATE & TROPHY IMAGE CANVAS */}
+            <div className="cert-modal-body">
+              <div className="cert-image-frame" style={{ background: '#070c14' }}>
+                <img 
+                  src={ASSETS.ksrsacAwardImg || "./ksrsac_state_award.jpg"} 
+                  alt="KSRSAC State Award Trophy, Certificate of Excellence and Compendium - A Gourav"
+                  className="cert-display-image"
+                  style={{ maxHeight: '68vh' }}
+                />
+              </div>
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="cert-modal-footer">
+              <div className="cert-footer-meta">
+                <div className="cert-verification-badges">
+                  <span className="cert-code-pill">
+                    <strong style={{ color: 'var(--amber)' }}>Event:</strong> K-GIS 2.0 State-Level Exhibition &amp; Competition
+                  </span>
+                  <span className="cert-code-pill">
+                    <strong style={{ color: 'var(--amber)' }}>Held:</strong> 29th &amp; 30th April 2026 at KSRSAC, Bengaluru
+                  </span>
+                  <span className="cert-code-pill">
+                    <strong style={{ color: 'var(--amber)' }}>Guided by:</strong> Dr. Krushitha Shetty (APSCE)
+                  </span>
+                </div>
+                <p className="cert-task-summary">
+                  Theme: "Technologies for Managing Planet Earth: Remote Sensing, Drones, GNSS, GIS &amp; GeoAI" · Signed by Dr. Thomas J V (Director, EDPO, ISRO) &amp; Dr. Rajesh N L (Director, KSRSAC).
+                </p>
+              </div>
+
+              <div className="cert-footer-actions">
+                <a 
+                  href="./ksrsac_state_award.jpg" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="cert-action-pdf-btn"
+                  style={{ borderColor: 'rgba(251, 191, 36, 0.4)', color: 'var(--amber)', background: 'rgba(251, 191, 36, 0.1)' }}
+                  download="A_GOURAV_KSRSAC_State_Award_Trophy.jpg"
+                >
+                  <Download size={14} />
+                  <span>Download Photo</span>
+                </a>
+                <button 
+                  type="button"
+                  className="cert-action-close-btn"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Close ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* REAL CERTIFICATE VIEWER MODAL */}
       {selectedCert === 'tata-genai' && (
         <div 
