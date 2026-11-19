@@ -378,13 +378,26 @@ export default function App() {
               </div>
             </div>
 
-            {/* RIGHT PHOTO CARD WITH CORNER RETICLES */}
+            {/* RIGHT PHOTO CARD WITH CORNER RETICLES & DOCKED CYBER HUD */}
             <div className="about-photo-wrapper">
               <div className="photo-reticle reticle-tl">┌</div>
               <div className="photo-reticle reticle-tr">┐</div>
               <div className="photo-reticle reticle-bl">└</div>
               <div className="photo-reticle reticle-br">┘</div>
-              <img src={ASSETS.aboutProfileImg} alt="A Gourav" className="about-photo-img" />
+              <img src={ASSETS.aboutProfileImg || "./profile.jpg"} alt="A Gourav" className="about-photo-img" />
+
+              {/* DOCKED CYBER PERSONA HUD */}
+              <div className="about-photo-hud">
+                <div className="photo-hud-status-row">
+                  <span className="photo-hud-status-badge">
+                    <span className="photo-hud-beacon" />
+                    <span>SYS // ONLINE</span>
+                  </span>
+                  <span className="photo-hud-loc">BENGALURU · IN</span>
+                </div>
+                <div className="photo-hud-name">A GOURAV</div>
+                <div className="photo-hud-role">AI / ML RESEARCHER · CSE '28</div>
+              </div>
             </div>
           </div>
         </section>
