@@ -325,25 +325,15 @@ section {
   margin-top: 2.2rem;
 }
 .hero-sublink-item {
-  color: #cbd5e1;
-  font-family: var(--mono);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
   text-decoration: none;
-  transition: all 0.25s ease;
-  padding: 0.45rem 1rem;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: color 0.25s ease;
 }
 .hero-sublink-item:hover {
   color: var(--cyan);
-  border-color: rgba(0, 212, 255, 0.45);
-  background: rgba(0, 212, 255, 0.12);
-  box-shadow: 0 0 16px rgba(0, 212, 255, 0.3);
-  transform: translateY(-2px);
 }
 .hero-sublink-item.btn-link {
   background: none;
@@ -356,19 +346,17 @@ section {
 }
 
 .hero-name-animated {
-  font-family: 'Space Grotesk', 'Syne', var(--sans);
-  font-size: clamp(3.2rem, 12vw, 9.8rem);
-  font-weight: 800;
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 12vw, 10.5rem);
+  font-weight: 500;
   line-height: 0.95;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   color: #ffffff;
   user-select: none;
   position: relative;
   display: inline-block;
-  background: linear-gradient(135deg, #ffffff 30%, #f1f5f9 60%, #7dd3fc 85%, #00d4ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 15px 40px rgba(0, 212, 255, 0.3));
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.9));
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25), 0 0 70px rgba(0, 212, 255, 0.35);
   animation: heroNameEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroNamePulseFloat 6s ease-in-out infinite 1.4s;
 }
 
@@ -376,23 +364,23 @@ section {
   0% {
     opacity: 0;
     transform: translateY(35px) scale(0.94);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
   }
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
   }
 }
 
 @keyframes heroNamePulseFloat {
   0%, 100% {
-    transform: translateY(0px);
-    filter: drop-shadow(0 15px 35px rgba(0, 212, 255, 0.3));
+    transform: translateY(0px) rotate(0deg);
+    text-shadow: 0 0 35px rgba(255, 255, 255, 0.25), 0 0 70px rgba(0, 212, 255, 0.35);
   }
   50% {
-    transform: translateY(-8px);
-    filter: drop-shadow(0 20px 50px rgba(0, 212, 255, 0.55));
+    transform: translateY(-10px) rotate(0.5deg);
+    text-shadow: 0 0 50px rgba(255, 255, 255, 0.45), 0 0 100px rgba(0, 212, 255, 0.65);
   }
 }
 
@@ -607,13 +595,12 @@ section {
 }
 
 .about-lead-highlight {
-  font-family: 'Space Grotesk', var(--sans);
-  font-style: normal;
-  font-size: 1.25rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.48rem;
   color: var(--cyan);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
-  text-shadow: 0 0 20px rgba(0, 212, 255, 0.35);
 }
 
 .about-body-narrative {
@@ -779,14 +766,13 @@ section {
 
 /* Quote Pane */
 .about-philosophical-quote {
-  font-family: 'Space Grotesk', var(--display), var(--sans);
-  font-style: normal;
-  font-weight: 600;
-  font-size: clamp(1.25rem, 2.1vw, 1.65rem);
-  line-height: 1.6;
-  color: #f8fafc;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  line-height: 1.55;
+  color: #ffffff;
   margin-bottom: 1.6rem;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
 }
 
 .quote-icon-decor {

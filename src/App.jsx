@@ -297,7 +297,7 @@ export default function App() {
                         <span className="about-stat-label"><strong>KSRSAC State Award</strong> (Govt. of Karnataka, ₹15,000 Prize for LakeGuard AI)</span>
                         <div className="cert-card-cta" style={{ marginTop: '0.4rem', fontSize: '0.74rem', color: 'var(--amber)' }}>
                           <Maximize2 size={12} />
-                          <span>View Real Award &amp; Trophy ↗</span>
+                          <span>View ↗</span>
                         </div>
                       </div>
                       <div className="about-stat-item">
@@ -606,7 +606,7 @@ export default function App() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <span style={{ fontFamily: 'var(--mono)', color: 'var(--amber)', fontSize: '0.8rem' }}>APRIL 2026</span>
-                <span className="cert-verified-pill" style={{ color: 'var(--amber)', borderColor: 'rgba(251, 191, 36, 0.4)', background: 'rgba(251, 191, 36, 0.1)' }}>VIEW REAL AWARD &amp; TROPHY ↗</span>
+                <span className="cert-verified-pill" style={{ color: 'var(--amber)', borderColor: 'rgba(251, 191, 36, 0.4)', background: 'rgba(251, 191, 36, 0.1)' }}>VIEW ↗</span>
               </div>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>4th Place of 147 Teams · KSRSAC State Award (Govt. of Karnataka, ₹15,000 Prize)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
@@ -622,7 +622,7 @@ export default function App() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                 <span style={{ fontFamily: 'var(--mono)', color: 'var(--emerald)', fontSize: '0.8rem' }}>OCTOBER 2026</span>
-                <span className="cert-verified-pill">CLICK TO VIEW CERTIFICATE ↗</span>
+                <span className="cert-verified-pill">VIEW ↗</span>
               </div>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>GenAI Powered Data Analytics · Tata Group (Forage)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
@@ -656,7 +656,7 @@ export default function App() {
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Consolation Prize (4th/147 Statewide) · ₹15,000 Cash Prize</p>
               <div className="cert-card-cta" style={{ color: 'var(--amber)' }}>
                 <Maximize2 size={13} />
-                <span>View Real Trophy &amp; Certificate ↗</span>
+                <span>View ↗</span>
               </div>
             </div>
 
@@ -682,7 +682,7 @@ export default function App() {
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Tata Group (Forage) Job Simulation</p>
               <div className="cert-card-cta">
                 <Maximize2 size={13} />
-                <span>View Real Certificate ↗</span>
+                <span>View ↗</span>
               </div>
             </div>
 
