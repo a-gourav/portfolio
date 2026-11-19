@@ -32,6 +32,7 @@ export default function App() {
   const cliInputRef = useRef(null);
 
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedCert, setSelectedCert] = useState(null);
 
   // Subtle auto-cycle for About tabs every 6.5s when not hovering
   useEffect(() => {
@@ -581,8 +582,16 @@ export default function App() {
               </p>
             </div>
 
-            <div className="glass-panel" style={{ borderLeft: '3px solid var(--emerald)' }}>
-              <span style={{ fontFamily: 'var(--mono)', color: 'var(--emerald)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>OCTOBER 2026</span>
+            <div 
+              className="glass-panel cert-clickable-card" 
+              style={{ borderLeft: '3px solid var(--emerald)', cursor: 'pointer' }}
+              onClick={() => setSelectedCert('tata-genai')}
+              title="Click to view verified Tata GenAI certificate"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                <span style={{ fontFamily: 'var(--mono)', color: 'var(--emerald)', fontSize: '0.8rem' }}>OCTOBER 2026</span>
+                <span className="cert-verified-pill">CLICK TO VIEW CERTIFICATE ↗</span>
+              </div>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.6rem' }}>GenAI Powered Data Analytics · Tata Group (Forage)</h3>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.98rem' }}>
                 Completed enterprise simulation on generative AI modeling, exploratory data analysis, business metric interpretation, and executive AI storytelling.
@@ -605,10 +614,24 @@ export default function App() {
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Machine Learning, Generative AI &amp; Deep Learning Core</p>
             </div>
 
-            <div className="glass-panel">
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--emerald)' }}>TATA GROUP · ISSUED OCT 2026</div>
-              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.4rem 0' }}>GenAI Powered Data Analytics</h3>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)' }}>Tata Group (Forage) Job Simulation</p>
+            <div 
+              className="glass-panel cert-clickable-card"
+              onClick={() => setSelectedCert('tata-genai')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedCert('tata-genai'); } }}
+              title="Click to view verified Tata GenAI certificate"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--emerald)' }}>TATA GROUP · ISSUED OCT 2026</div>
+                <span className="cert-verified-pill">VERIFIED ↗</span>
+              </div>
+              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.5rem 0 0.3rem 0' }}>GenAI Powered Data Analytics</h3>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Tata Group (Forage) Job Simulation</p>
+              <div className="cert-card-cta">
+                <Maximize2 size={13} />
+                <span>View Real Certificate ↗</span>
+              </div>
             </div>
 
             <div className="glass-panel">
@@ -869,6 +892,94 @@ export default function App() {
               >
                 Close Brief
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* REAL CERTIFICATE VIEWER MODAL */}
+      {selectedCert === 'tata-genai' && (
+        <div 
+          className="cert-modal-backdrop"
+          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cert-modal-title"
+        >
+          <div 
+            className="cert-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* MODAL HEADER */}
+            <div className="cert-modal-header">
+              <div className="cert-modal-header-left">
+                <div className="cert-modal-kicker">
+                  <span className="cert-live-dot" />
+                  <span>VERIFIED CERTIFICATE OF COMPLETION · TATA GROUP (FORAGE)</span>
+                </div>
+                <h3 id="cert-modal-title" className="cert-modal-title">
+                  GenAI Powered Data Analytics Job Simulation
+                </h3>
+                <p className="cert-modal-subtitle">
+                  Issued to <strong style={{ color: '#fff' }}>GOURAV a</strong> · October 19th, 2026
+                </p>
+              </div>
+
+              <button 
+                className="cert-modal-close-icon-btn"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close certificate"
+                title="Close (Esc)"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* CERTIFICATE IMAGE CANVAS / DISPLAY */}
+            <div className="cert-modal-body">
+              <div className="cert-image-frame">
+                <img 
+                  src={ASSETS.tataGenAiCertImg || "./tata_genai_certificate.png"} 
+                  alt="Tata Group - GenAI Powered Data Analytics Certificate of Completion - GOURAV a"
+                  className="cert-display-image"
+                />
+              </div>
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="cert-modal-footer">
+              <div className="cert-footer-meta">
+                <div className="cert-verification-badges">
+                  <span className="cert-code-pill">
+                    <strong>Enrolment:</strong> 6ad4af9751a640ee733d842a
+                  </span>
+                  <span className="cert-code-pill">
+                    <strong>User:</strong> 6ad4aea4370ca66eb29bf3cf
+                  </span>
+                </div>
+                <p className="cert-task-summary">
+                  Practical Tasks: Exploratory Data Analysis · Risk Profiling · Predicting Delinquency with AI · Collections Strategy
+                </p>
+              </div>
+
+              <div className="cert-footer-actions">
+                <a 
+                  href="./tata_genai_certificate.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="cert-action-pdf-btn"
+                  download="GOURAV_A_TATA_GenAI_Certificate.pdf"
+                >
+                  <Download size={14} />
+                  <span>Download PDF</span>
+                </a>
+                <button 
+                  type="button"
+                  className="cert-action-close-btn"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Close ✕
+                </button>
+              </div>
             </div>
           </div>
         </div>
