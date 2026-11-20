@@ -111,9 +111,10 @@ export default function App() {
       if (e.key === 'Escape') {
         if (cliOpen) setCliOpen(false);
         if (selectedProject) setSelectedProject(null);
+        if (selectedCert) setSelectedCert(null);
       }
     };
-    if (selectedProject || cliOpen) {
+    if (selectedProject || cliOpen || selectedCert) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
     } else {
@@ -213,7 +214,7 @@ export default function App() {
           <div className="hero-sublinks">
             <a href="#contact" className="hero-sublink-item">Contact Me</a>
             <span className="hero-sublink-sep">|</span>
-            <button onClick={downloadResume} className="hero-sublink-item btn-link">View Resume ↗</button>
+            <button onClick={() => setSelectedCert('resume')} className="hero-sublink-item btn-link">View Resume ↗</button>
           </div>
         </section>
 
@@ -760,28 +761,116 @@ export default function App() {
             <h2 className="section-heading">Contact</h2>
           </div>
 
-          <div className="glass-panel" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '4rem' }}>
-            <div>
-              <h3 style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '0.4rem' }}>Download Verified Resume</h3>
-              <p style={{ color: 'var(--ink-dim)', maxWidth: '550px' }}>A one-page snapshot of my education, projects, and skills — updated as new things ship.</p>
+          {/* VERIFIED RESUME SHOWCASE CARD WITH PREVIEW IMAGE & ACTIONS */}
+          <div className="resume-showcase-panel">
+            <div className="resume-showcase-topbar">
+              <div className="resume-kicker">
+                <span className="cert-live-dot" style={{ background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
+                <span>// CURRICULUM VITAE · VERIFIED CANONICAL COPY</span>
+              </div>
+              <div className="resume-meta-badge">
+                <span>UPDATED NOV 2026</span>
+                <span className="resume-meta-sep">/</span>
+                <span className="resume-meta-format">ONE-PAGE PDF</span>
+              </div>
             </div>
-            <button onClick={() => { downloadResume(); }} style={{
-              background: 'linear-gradient(135deg, var(--cyan), #0088ff)',
-              color: '#000',
-              fontFamily: 'var(--mono)',
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              padding: '0.85rem 1.8rem',
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              boxShadow: '0 0 25px rgba(0, 212, 255, 0.4)'
-            }}>
-              <Download size={16} /> <span>Download Resume PDF</span>
-            </button>
+
+            <div className="resume-showcase-content">
+              {/* LEFT: INTERACTIVE RESUME PREVIEW CARD */}
+              <div 
+                className="resume-preview-card"
+                onClick={() => setSelectedCert('resume')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedCert('resume'); } }}
+                title="Click to view full-page verified resume"
+              >
+                <div className="resume-paper-wrapper">
+                  <div className="photo-reticle reticle-tl">┌</div>
+                  <div className="photo-reticle reticle-tr">┐</div>
+                  <div className="photo-reticle reticle-bl">└</div>
+                  <div className="photo-reticle reticle-br">┘</div>
+                  
+                  <div className="resume-paper-halo" aria-hidden="true" />
+                  
+                  <img 
+                    src={ASSETS.resumePreviewImg || "./resume_preview.png"} 
+                    alt="A Gourav - Verified One-Page Resume Preview" 
+                    className="resume-preview-image"
+                    loading="lazy"
+                  />
+
+                  <div className="resume-hover-overlay">
+                    <div className="resume-hover-badge">
+                      <Maximize2 size={14} />
+                      <span>View ↗</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="resume-paper-caption">
+                  <span>📄 GOURAV_RESUME.pdf</span>
+                  <span className="resume-caption-action">View ↗</span>
+                </div>
+              </div>
+
+              {/* RIGHT: DETAILS, SPECIFICATIONS & DOWNLOAD ACTION */}
+              <div className="resume-details-column">
+                <div className="resume-status-pill">
+                  <span className="resume-pill-dot" />
+                  <span>CANDIDACY: AI / ML RESEARCH &amp; SYSTEMS</span>
+                </div>
+
+                <h3 className="resume-headline">
+                  A Gourav <span className="resume-headline-sub">— Resume &amp; Profile Summary</span>
+                </h3>
+
+                <p className="resume-description">
+                  A comprehensive, one-page snapshot of machine learning research, self-supervised representation learning, deep neural network robustness evaluations, end-to-end full-stack AI deployment, academic foundations at APSCE, and competitive hackathon honors.
+                </p>
+
+                {/* Quick specs grid */}
+                <div className="resume-specs-grid">
+                  <div className="resume-spec-item">
+                    <span className="resume-spec-label">DOMAIN</span>
+                    <span className="resume-spec-val">AI / ML &amp; Deep Learning</span>
+                  </div>
+                  <div className="resume-spec-item">
+                    <span className="resume-spec-label">EDUCATION</span>
+                    <span className="resume-spec-val">B.E. CSE '28 · APSCE</span>
+                  </div>
+                  <div className="resume-spec-item">
+                    <span className="resume-spec-label">LOCATION</span>
+                    <span className="resume-spec-val">Bengaluru, Karnataka, IN</span>
+                  </div>
+                  <div className="resume-spec-item">
+                    <span className="resume-spec-label">INTEGRITY</span>
+                    <span className="resume-spec-val resume-spec-verified">SHA-256 Verified ✓</span>
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="resume-actions-row">
+                  <button 
+                    onClick={() => { downloadResume(); }} 
+                    className="resume-download-btn"
+                    title="Download GOURAV_RESUME.pdf directly"
+                  >
+                    <Download size={18} />
+                    <span>Download Resume PDF</span>
+                  </button>
+
+                  <button 
+                    onClick={() => { setSelectedCert('resume'); }} 
+                    className="resume-view-fullscreen-btn"
+                    title="Open full-page interactive viewer in browser"
+                  >
+                    <Maximize2 size={16} />
+                    <span>View ↗</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="footer-end-container">
@@ -1007,7 +1096,87 @@ export default function App() {
           </div>
         </div>
       )}
-            {/* INFOSYS SPRINGBOARD CERTIFICATE VIEWER MODAL */}
+                  {/* VERIFIED RESUME FULL-PAGE VIEWER MODAL */}
+      {selectedCert === 'resume' && (
+        <div 
+          className="cert-modal-backdrop"
+          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="resume-modal-title"
+        >
+          <div 
+            className="cert-modal-container"
+            onClick={(e) => e.stopPropagation()}
+            style={{ borderColor: 'rgba(0, 212, 255, 0.45)', boxShadow: '0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 212, 255, 0.2)' }}
+          >
+            {/* MODAL HEADER */}
+            <div className="cert-modal-header">
+              <div className="cert-modal-header-left">
+                <div className="cert-modal-kicker" style={{ color: 'var(--cyan)' }}>
+                  <span className="cert-live-dot" style={{ background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
+                  <span>VERIFIED CURRICULUM VITAE · 2026 EDITION</span>
+                </div>
+                <h3 id="resume-modal-title" className="cert-modal-title">
+                  A Gourav — Resume
+                </h3>
+                <p className="cert-modal-subtitle">
+                  AI / ML Researcher · Computer Science &amp; Engineering · APSCE Bengaluru
+                </p>
+              </div>
+
+              <button 
+                className="cert-modal-close-icon-btn"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close resume viewer"
+                title="Close (Esc)"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* RESUME IMAGE CANVAS */}
+            <div className="cert-modal-canvas-wrap" style={{ background: '#070b14', display: 'flex', justifyContent: 'center', padding: '1.8rem 1rem' }}>
+              <div style={{ maxWidth: '820px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.9), 0 0 35px rgba(0, 212, 255, 0.15)', borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <img 
+                  src={ASSETS.resumePreviewImg || "./resume_preview.png"} 
+                  alt="A Gourav - Verified Resume Document" 
+                  className="cert-modal-display-img"
+                  style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 'none' }}
+                />
+              </div>
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="cert-modal-footer">
+              <div className="cert-modal-footer-meta">
+                <span className="cert-issuer-tag">CANONICAL DOCUMENT</span>
+                <span className="cert-serial-tag">GOURAV_RESUME.pdf · SHA-256 CHECKED</span>
+              </div>
+
+              <div className="cert-modal-footer-actions">
+                <button 
+                  type="button" 
+                  className="cert-modal-action-btn cert-modal-download-btn"
+                  onClick={() => downloadResume()}
+                >
+                  <Download size={14} />
+                  <span>Download PDF</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  className="cert-modal-action-btn cert-modal-dismiss-btn"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Close ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* INFOSYS SPRINGBOARD CERTIFICATE VIEWER MODAL */}
       {selectedCert === 'infosys-internship' && (
         <div 
           className="cert-modal-backdrop"
