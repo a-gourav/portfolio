@@ -12,6 +12,16 @@ export default function App() {
 
   // About 3D Kinetic Card State
   const [aboutTab, setAboutTab] = useState('brief');
+  const [isPhotoHovered, setIsPhotoHovered] = useState(false);
+  const [isPhotoColorActive, setIsPhotoColorActive] = useState(false);
+  const [photoCursor, setPhotoCursor] = useState({ px: 50, py: 50 });
+
+  const handlePhotoMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    setPhotoCursor({ px: x, py: y });
+  };
   const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [aboutTilt, setAboutTilt] = useState({ x: 0, y: 0, px: 50, py: 50 });
 
@@ -378,26 +388,36 @@ export default function App() {
               </div>
             </div>
 
-            {/* RIGHT PHOTO CARD WITH CORNER RETICLES & DOCKED CYBER HUD */}
-            <div className="about-photo-wrapper">
+            {/* RIGHT PHOTO CARD WITH CORNER RETICLES (MONOCHROME B&W BY DEFAULT, VIBRANT COLOR ON CURSOR HOVER) */}
+            <div 
+              className={`about-photo-wrapper ${isPhotoColorActive ? 'photo-color-active' : ''}`}
+              onMouseMove={handlePhotoMouseMove}
+              onMouseEnter={() => setIsPhotoHovered(true)}
+              onMouseLeave={() => { setIsPhotoHovered(false); setPhotoCursor({ px: 50, py: 50 }); }}
+              onClick={() => setIsPhotoColorActive(prev => !prev)}
+              title="Move cursor over photo to reveal color (Click/tap to toggle)"
+            >
               <div className="photo-reticle reticle-tl">┌</div>
               <div className="photo-reticle reticle-tr">┐</div>
               <div className="photo-reticle reticle-bl">└</div>
               <div className="photo-reticle reticle-br">┘</div>
-              <img src={ASSETS.aboutProfileImg || "./profile.jpg"} alt="A Gourav" className="about-photo-img" />
 
-              {/* DOCKED CYBER PERSONA HUD */}
-              <div className="about-photo-hud">
-                <div className="photo-hud-status-row">
-                  <span className="photo-hud-status-badge">
-                    <span className="photo-hud-beacon" />
-                    <span>SYS // ONLINE</span>
-                  </span>
-                  <span className="photo-hud-loc">BENGALURU · IN</span>
-                </div>
-                <div className="photo-hud-name">A GOURAV</div>
-                <div className="photo-hud-role">AI / ML RESEARCHER · CSE '28</div>
-              </div>
+              {/* Subtle dynamic cursor sheen following mouse movement around photo */}
+              {isPhotoHovered && (
+                <div 
+                  className="photo-cursor-glow"
+                  style={{
+                    background: `radial-gradient(380px circle at ${photoCursor.px}% ${photoCursor.py}%, rgba(0, 212, 255, 0.14), transparent 70%)`
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+
+              <img 
+                src={ASSETS.aboutProfileImg || "./profile.jpg"} 
+                alt="A Gourav" 
+                className="about-photo-img" 
+              />
             </div>
           </div>
         </section>
