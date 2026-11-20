@@ -310,12 +310,23 @@ export default function App() {
                           <span>View ↗</span>
                         </div>
                       </div>
-                      <div className="about-stat-item">
+                      <div 
+                        className="about-stat-item cert-clickable-card"
+                        onClick={() => setSelectedCert('infosys-internship')}
+                        role="button"
+                        tabIndex={0}
+                        style={{ cursor: 'pointer' }}
+                        title="Click to view verified Infosys Springboard Certificate of Completion"
+                      >
                         <div className="stat-top-row">
                           <span className="about-stat-num">Infosys</span>
                           <Zap size={18} color="var(--cyan)" />
                         </div>
                         <span className="about-stat-label"><strong>AI Engineering Intern</strong> (SupportPilot: Python, Flask, RAG &amp; 5-Agent Swarm)</span>
+                        <div className="cert-card-cta" style={{ marginTop: '0.4rem', fontSize: '0.74rem', color: 'var(--cyan)' }}>
+                          <Maximize2 size={12} />
+                          <span>View ↗</span>
+                        </div>
                       </div>
                       <div className="about-stat-item">
                         <div className="stat-top-row">
@@ -609,8 +620,16 @@ export default function App() {
           </div>
 
           <div style={{ display: 'grid', gap: '1.5rem' }}>
-            <div className="glass-panel" style={{ borderLeft: '3px solid var(--cyan)' }}>
-              <span style={{ fontFamily: 'var(--mono)', color: 'var(--cyan)', fontSize: '0.8rem', display: 'block', marginBottom: '0.4rem' }}>JUNE 2026 — PRESENT</span>
+            <div 
+              className="glass-panel cert-clickable-card" 
+              style={{ borderLeft: '3px solid var(--cyan)', cursor: 'pointer' }}
+              onClick={() => setSelectedCert('infosys-internship')}
+              title="Click to view verified Infosys Springboard Certificate of Completion"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                <span style={{ fontFamily: 'var(--mono)', color: 'var(--cyan)', fontSize: '0.8rem' }}>JUNE 2026 — PRESENT</span>
+                <span className="cert-verified-pill" style={{ color: 'var(--cyan)', borderColor: 'rgba(0, 212, 255, 0.4)', background: 'rgba(0, 212, 255, 0.1)' }}>VIEW ↗</span>
+              </div>
               <h3 style={{ fontSize: '1.35rem', color: '#fff', marginBottom: '0.3rem' }}>AI Engineering Intern · Infosys <span style={{ fontSize: '0.9rem', color: 'var(--ink-dim)', fontWeight: 400 }}>| Bengaluru, India</span></h3>
               <div style={{ fontFamily: 'var(--mono)', fontSize: '0.8rem', color: 'var(--amber)', marginBottom: '0.6rem' }}>Project: SupportPilot — Autonomous AI Support Desk &amp; Multi-Agent Resolution System</div>
               <p style={{ color: 'var(--ink-dim)', lineHeight: '1.65', fontSize: '0.95rem' }}>
@@ -675,6 +694,26 @@ export default function App() {
               <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.5rem 0 0.3rem 0' }}>K-GIS 2.0 State-Level Innovation Award</h3>
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Consolation Prize (4th/147 Statewide) · ₹15,000 Cash Prize</p>
               <div className="cert-card-cta" style={{ color: 'var(--amber)' }}>
+                <Maximize2 size={13} />
+                <span>View ↗</span>
+              </div>
+            </div>
+
+            <div 
+              className="glass-panel cert-clickable-card"
+              onClick={() => setSelectedCert('infosys-internship')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedCert('infosys-internship'); } }}
+              title="Click to view verified Infosys Springboard Certificate of Completion"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: '0.72rem', color: 'var(--cyan)' }}>INFOSYS SPRINGBOARD · NOV 2026</div>
+                <span className="cert-verified-pill">VERIFIED ↗</span>
+              </div>
+              <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: '0.5rem 0 0.3rem 0' }}>AI-Powered Customer Support Platform with Ticket Resolution Agent</h3>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--ink-dimmer)', marginBottom: '0.8rem' }}>Internship 7.0 (B3) · Certificate of Completion</p>
+              <div className="cert-card-cta">
                 <Maximize2 size={13} />
                 <span>View ↗</span>
               </div>
@@ -968,6 +1007,105 @@ export default function App() {
           </div>
         </div>
       )}
+            {/* INFOSYS SPRINGBOARD CERTIFICATE VIEWER MODAL */}
+      {selectedCert === 'infosys-internship' && (
+        <div 
+          className="cert-modal-backdrop"
+          onClick={() => setSelectedCert(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="infosys-modal-title"
+        >
+          <div 
+            className="cert-modal-container"
+            onClick={(e) => e.stopPropagation()}
+            style={{ borderColor: 'rgba(0, 212, 255, 0.45)', boxShadow: '0 25px 80px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 212, 255, 0.2)' }}
+          >
+            {/* MODAL HEADER */}
+            <div className="cert-modal-header">
+              <div className="cert-modal-header-left">
+                <div className="cert-modal-kicker" style={{ color: 'var(--cyan)' }}>
+                  <span className="cert-live-dot" style={{ background: 'var(--cyan)', boxShadow: '0 0 10px var(--cyan)' }} />
+                  <span>VERIFIED CERTIFICATE OF COMPLETION · INFOSYS SPRINGBOARD</span>
+                </div>
+                <h3 id="infosys-modal-title" className="cert-modal-title">
+                  AI-Powered Customer Support Platform with Ticket Resolution Agent
+                </h3>
+                <p className="cert-modal-subtitle">
+                  Presented to <strong style={{ color: '#fff' }}>A Gourav</strong> · Internship 7.0 (B3) · Issued Nov 12, 2026
+                </p>
+              </div>
+
+              <button 
+                className="cert-modal-close-icon-btn"
+                onClick={() => setSelectedCert(null)}
+                aria-label="Close certificate"
+                title="Close (Esc)"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* CERTIFICATE IMAGE CANVAS */}
+            <div className="cert-modal-body">
+              <div className="cert-image-frame">
+                <img 
+                  src={ASSETS.infosysCertImg || "./infosys_internship_certificate.png"} 
+                  alt="Infosys Springboard - Internship 7.0 AI-Powered Customer Support Platform with Ticket Resolution Agent Certificate of Completion - A Gourav"
+                  className="cert-display-image"
+                />
+              </div>
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="cert-modal-footer">
+              <div className="cert-footer-meta">
+                <div className="cert-verification-badges">
+                  <span className="cert-code-pill">
+                    <strong style={{ color: 'var(--cyan)' }}>Program:</strong> Internship 7.0 (B3)
+                  </span>
+                  <span className="cert-code-pill">
+                    <strong style={{ color: 'var(--cyan)' }}>Conducted:</strong> Aug 14, 2026 – Oct 20, 2026
+                  </span>
+                  <a 
+                    href="https://verify.onwingspan.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="cert-code-pill"
+                    style={{ textDecoration: 'none', color: 'var(--cyan)' }}
+                  >
+                    <strong>Verify at:</strong> verify.onwingspan.com ↗
+                  </a>
+                </div>
+                <p className="cert-task-summary">
+                  Authorized by Satheesha B. Nanjappa (Senior Vice President &amp; Head, Education, Training and Assessment, Infosys Limited).
+                </p>
+              </div>
+
+              <div className="cert-footer-actions">
+                <a 
+                  href="./infosys_internship_certificate.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="cert-action-pdf-btn"
+                  download="A_GOURAV_Infosys_Internship_Certificate.pdf"
+                >
+                  <Download size={14} />
+                  <span>Download PDF</span>
+                </a>
+                <button 
+                  type="button"
+                  className="cert-action-close-btn"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Close ✕
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* REAL KSRSAC STATE AWARD & TROPHY VIEWER MODAL */}
       {selectedCert === 'ksrsac-award' && (
         <div 
